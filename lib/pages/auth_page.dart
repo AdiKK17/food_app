@@ -62,9 +62,10 @@ class _AuthenticationPage extends State<AuthenticationPage> {
 
   Widget _buildSubmitButton() {
     return RaisedButton(
+      color: Colors.black87,
       child: Text(
         "LOGIN",
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
       ),
       onPressed: () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => HomePage()),
@@ -76,7 +77,7 @@ class _AuthenticationPage extends State<AuthenticationPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-//    final double deviceWidth = MediaQuery.of(context).size.width * 90 ;
+    final double deviceWidth = MediaQuery.of(context).size.width ;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -103,17 +104,17 @@ class _AuthenticationPage extends State<AuthenticationPage> {
               ),
               Container(
                 child: _buildEmailTextField(),
-                width: 350,
+                width: deviceWidth * 0.85,
               ),
               SizedBox(
                 height: 15,
               ),
               Container(
                 child: _buildPasswordTextField(),
-                width: 350,
+                width: deviceWidth * 0.85,
               ),
               SizedBox(
-                height: 20,
+                height: 25,
               ),
               Container(
                 child: _buildSubmitButton(),

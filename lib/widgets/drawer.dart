@@ -5,6 +5,7 @@ import '../pages/category_page.dart';
 import '../pages/favorite_page.dart';
 import '../pages/shopping_list_page.dart';
 import '../pages/auth_page.dart';
+import '../pages/cuisine_page.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -41,7 +42,7 @@ class TheDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-              trailing: Icon(Icons.category),
+              trailing: Icon(Icons.timelapse),
               title: Text(
                 "Categories",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -50,6 +51,19 @@ class TheDrawer extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ShowCategories(),
+                  ),
+                );
+              }),
+          ListTile(
+              trailing: Icon(Icons.category),
+              title: Text(
+                "Cuisines",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CuisinePage(),
                   ),
                 );
               }),
