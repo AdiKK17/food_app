@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'home_page.dart';
 
+enum AuthMode { Login, SignUp }
+
 class AuthenticationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -11,7 +13,7 @@ class AuthenticationPage extends StatefulWidget {
 }
 
 class _AuthenticationPage extends State<AuthenticationPage> {
-
+  AuthMode _authMode = AuthMode.Login;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordTextController = TextEditingController();
 
@@ -60,12 +62,25 @@ class _AuthenticationPage extends State<AuthenticationPage> {
     );
   }
 
+  Widget _buildPasswordConfirmTextField() {
+    return TextFormField(
+      decoration: InputDecoration(
+          labelText: 'Confirm Password', filled: true, fillColor: Colors.white),
+      obscureText: true,
+      validator: (String value) {
+        if (_passwordTextController.text != value) {
+          return 'Passwords do not match.';
+        }
+      },
+    );
+  }
+
   Widget _buildSubmitButton() {
     return RaisedButton(
       color: Colors.black87,
       child: Text(
-        "LOGIN",
-        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+        _authMode == AuthMode.Login ? "LOGIN" : "SIGNUP",
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       onPressed: () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => HomePage()),
@@ -77,7 +92,7 @@ class _AuthenticationPage extends State<AuthenticationPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    final double deviceWidth = MediaQuery.of(context).size.width ;
+    final double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -114,12 +129,40 @@ class _AuthenticationPage extends State<AuthenticationPage> {
                 width: deviceWidth * 0.85,
               ),
               SizedBox(
+                height: 10,
+              ),
+              _authMode == AuthMode.SignUp
+                  ? Container(
+                child: _buildPasswordConfirmTextField(),
+                width: deviceWidth * 0.85,
+              )
+                  : Container(),
+              SizedBox(
                 height: 25,
               ),
               Container(
                 child: _buildSubmitButton(),
                 width: 200,
-              )
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              FlatButton(
+                onPressed: () {
+                  setState(() {
+
+                    if (_authMode == AuthMode.Login) {
+                      _authMode = AuthMode.SignUp;
+                    } else {
+                      _authMode = AuthMode.Login;
+                    }
+
+                  });
+                },
+                child: Text(_authMode == AuthMode.Login
+                    ? "Not a user?  SignUp first"
+                    : "Login Instead"),
+              ),
             ],
           ),
         ),
