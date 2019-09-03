@@ -16,7 +16,8 @@ class _HomePage extends State<HomePage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Food App"),
+        backgroundColor: Colors.white10,
+        title: Text("ReciPedia",style: TextStyle(color: Colors.black87,fontSize: 25,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),),
         centerTitle: true,
       ),
       drawer: TheDrawer(),

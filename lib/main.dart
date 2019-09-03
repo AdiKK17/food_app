@@ -20,7 +20,7 @@ class _MyFoodApp extends State<MyFoodApp> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      home: HomePage(),
+      home: AuthenticationPage(),
     );
   }
 }
