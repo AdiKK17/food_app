@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'home_page.dart';
+import '../providers/auth.dart';
 
 enum AuthMode { Login, SignUp }
 
@@ -13,6 +16,7 @@ class AuthenticationPage extends StatefulWidget {
 }
 
 class _AuthenticationPage extends State<AuthenticationPage> {
+  var _isLoading = false;
   AuthMode _authMode = AuthMode.Login;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordTextController = TextEditingController();
@@ -82,10 +86,41 @@ class _AuthenticationPage extends State<AuthenticationPage> {
         _authMode == AuthMode.Login ? "LOGIN" : "SIGNUP",
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
-      onPressed: () => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomePage()),
-      ),
+      onPressed: () { _submitForm();
+        }
     );
+  }
+
+  Future<void> _submitForm() async {
+    if(!_formKey.currentState.validate()){
+      return;
+    }
+    _formKey.currentState.save();
+
+    setState(() {
+      _isLoading = true;
+    });
+
+
+    if(_authMode == AuthMode.Login){
+     await Provider.of<Auth>(context,listen: false).login(_formData["email"], _formData["password"]);
+
+    }else{
+
+      await  Provider.of<Auth>(context,listen: false).signUp(_formData["email"], _formData["password"]);
+    }
+
+
+    setState(() {
+      _isLoading = false;
+    });
+
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+
+
   }
 
   @override
@@ -95,13 +130,14 @@ class _AuthenticationPage extends State<AuthenticationPage> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
+        height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
           image: _buildBackGroundImage(),
         ),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: SingleChildScrollView(child: Column(
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(top: 220),
@@ -140,7 +176,7 @@ class _AuthenticationPage extends State<AuthenticationPage> {
               SizedBox(
                 height: 25,
               ),
-              Container(
+              _isLoading == true ? CircularProgressIndicator() : Container(
                 child: _buildSubmitButton(),
                 width: 200,
               ),
@@ -167,6 +203,6 @@ class _AuthenticationPage extends State<AuthenticationPage> {
           ),
         ),
       ),
-    );
+    ),);
   }
 }
