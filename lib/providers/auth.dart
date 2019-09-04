@@ -53,7 +53,7 @@ class Auth with ChangeNotifier {
     } catch(error) {
       throw error;
     }
-  
+
   }
 
 
