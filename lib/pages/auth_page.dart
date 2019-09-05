@@ -128,9 +128,9 @@ class _AuthenticationPage extends State<AuthenticationPage> {
             .signUp(_formData["email"], _formData["password"]);
       }
 
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+//      Navigator.of(context).pushReplacement(
+//        MaterialPageRoute(builder: (context) => HomePage()),
+//      );
 
     } on HttpException catch (error) {
       var errorMessage = "authentication Failed!";

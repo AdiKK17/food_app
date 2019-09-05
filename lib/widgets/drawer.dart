@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import '../pages/all_recipe_page.dart';
 import '../pages/category_page.dart';
 import '../pages/favorite_page.dart';
 import '../pages/shopping_list_page.dart';
 import '../pages/auth_page.dart';
 import '../pages/cuisine_page.dart';
+import '../providers/auth.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -99,7 +102,9 @@ class TheDrawer extends StatelessWidget {
               "LogOut",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            onTap: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AuthenticationPage())),
+            onTap: () {
+              Navigator.of(context).pop();
+              Provider.of<Auth>(context,listen: false).logout();},
           )
         ],
       ),

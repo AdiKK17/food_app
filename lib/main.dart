@@ -26,8 +26,10 @@ class _MyFoodApp extends State<MyFoodApp> {
       providers: [
         ChangeNotifierProvider.value(value: Auth()),
       ],
-      child: MaterialApp(
-        home: AuthenticationPage(),
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          home: auth.isAuthenticated ? HomePage() : AuthenticationPage(),
+        ),
       ),
     );
   }
