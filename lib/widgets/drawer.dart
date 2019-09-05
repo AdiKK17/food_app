@@ -9,6 +9,7 @@ import '../pages/shopping_list_page.dart';
 import '../pages/auth_page.dart';
 import '../pages/cuisine_page.dart';
 import '../providers/auth.dart';
+import '../main.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -104,7 +105,13 @@ class TheDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Provider.of<Auth>(context,listen: false).logout();},
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => MyFoodApp(),
+                ),
+              );
+              Provider.of<Auth>(context, listen: false).logout();
+            },
           )
         ],
       ),

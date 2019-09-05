@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './pages/home_page.dart';
 import './pages/auth_page.dart';
 import './providers/auth.dart';
+import './pages/loading_page.dart';
 
 main() {
   runApp(MyFoodApp());
@@ -28,7 +29,14 @@ class _MyFoodApp extends State<MyFoodApp> {
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
-          home: auth.isAuthenticated ? HomePage() : AuthenticationPage(),
+          home: auth.isAuthenticated
+              ? HomePage()
+              : FutureBuilder(
+                  future: auth.autoLogin(),
+                  builder: (context, authResult) =>
+                      authResult.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthenticationPage()),
         ),
       ),
     );
