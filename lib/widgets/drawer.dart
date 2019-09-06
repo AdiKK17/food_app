@@ -6,7 +6,6 @@ import '../pages/all_recipe_page.dart';
 import '../pages/category_page.dart';
 import '../pages/favorite_page.dart';
 import '../pages/shopping_list_page.dart';
-import '../pages/auth_page.dart';
 import '../pages/cuisine_page.dart';
 import '../providers/auth.dart';
 import '../main.dart';

@@ -6,6 +6,7 @@ import './pages/home_page.dart';
 import './pages/auth_page.dart';
 import './providers/auth.dart';
 import './pages/loading_page.dart';
+import './providers/recipe.dart';
 
 main() {
   runApp(MyFoodApp());
@@ -26,6 +27,7 @@ class _MyFoodApp extends State<MyFoodApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: Auth()),
+        ChangeNotifierProvider.value(value: Recipe()),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
