@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/drawer.dart';
+import '../widgets/search_action.dart';
 import '../providers/recipe.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,8 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-
-
   var _isInit = true;
   var _isLoading = false;
 
@@ -45,11 +44,17 @@ class _HomePage extends State<HomePage> {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-              onPressed: () {})
+            icon: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: DataSearch(),
+              );
+            },
+          ),
         ],
         backgroundColor: Colors.lightGreen,
         title: Text(
@@ -124,12 +129,17 @@ class _HomePage extends State<HomePage> {
                             size: 40,
                           ),
                           onPressed: () {
-                            Provider.of<Recipe>(context)
-                                .favoriteIt(
-                                    Provider.of<Recipe>(context)
-                                        .item[index]
-                                        .id);
-                                Scaffold.of(context).hideCurrentSnackBar();
+                            Provider.of<Recipe>(context).favoriteIt(
+                                Provider.of<Recipe>(context).item[index].title,
+                                Provider.of<Recipe>(context)
+                                    .item[index]
+                                    .imageUrl,
+                                Provider.of<Recipe>(context).item[index].rating,
+                                Provider.of<Recipe>(context).item[index].id,
+                                Provider.of<Recipe>(context)
+                                    .item[index]
+                                    .detailSource);
+                            Scaffold.of(context).hideCurrentSnackBar();
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
                                 content: Text("recipe added to favorites"),
