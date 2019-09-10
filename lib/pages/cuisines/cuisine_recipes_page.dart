@@ -6,16 +6,20 @@ import 'package:provider/provider.dart';
 import '../../providers/recipe_by_cuisine.dart';
 import '../../providers/recipe.dart';
 
-class BreakFastPage extends StatefulWidget {
+class CuisineRecipesPage extends StatefulWidget {
+
+  final String title;
+
+  CuisineRecipesPage(this.title);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _BreakFastPage();
+    return _CuisineRecipesPage();
   }
 }
 
-class _BreakFastPage extends State<BreakFastPage> {
+class _CuisineRecipesPage extends State<CuisineRecipesPage> {
   var _isInit = true;
   var _isLoading = false;
 
@@ -25,7 +29,7 @@ class _BreakFastPage extends State<BreakFastPage> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<RecipeByCuisine>(context).fetchRecipes("breakfast").then((_) {
+      Provider.of<RecipeByCuisine>(context).fetchRecipes(widget.title).then((_) {
         setState(() {
           _isLoading = false;
         });
@@ -38,21 +42,20 @@ class _BreakFastPage extends State<BreakFastPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-//    return Scaffold(
-//      appBar: AppBar(
-//        backgroundColor: Colors.lightGreen,
-//        title: Text(
-//          "BreakFast",
-//          style: TextStyle(
-//              color: Colors.black87,
-//              fontSize: 25,
-//              fontWeight: FontWeight.bold,
-//              fontStyle: FontStyle.italic),
-//        ),
-//        centerTitle: true,
-//      ),
-//      body:
-      return _isLoading
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
+        title: Text(
+          widget.title,
+          style: TextStyle(
+              color: Colors.black87,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic),
+        ),
+        centerTitle: true,
+      ),
+      body: _isLoading
           ? Center(
         child: CircularProgressIndicator(),
       )
@@ -140,7 +143,7 @@ class _BreakFastPage extends State<BreakFastPage> {
           );
         },
         itemCount: Provider.of<RecipeByCuisine>(context).cuisineList.length,
-//      ),
+      ),
     );
   }
 }

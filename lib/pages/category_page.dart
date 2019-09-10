@@ -31,7 +31,7 @@ class ShowCategories extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(children: [BreakfastPage(),LunchPage(),SnackPage(),DinnerPage()]),
+        body: TabBarView(children: [BreakFastPage(),LunchPage(),SnackPage(),DinnerPage()]),
       ),
     );
   }
