@@ -25,7 +25,7 @@ class Recipe with ChangeNotifier {
   Future<void> fetchRecipes() async {
 //    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
     const url =
-        "https://www.food2fork.com/api/search?key=8e2b691aa3b937b208975c6f081b0792";
+        "https://www.food2fork.com/api/search?key=f7d92b58ec2e350119d5c25b5c491d04";
 
     final response = await http.get(url);
     final responseData = json.decode(response.body);
@@ -56,14 +56,8 @@ class Recipe with ChangeNotifier {
     const anotherUrl =
         "https://recipedia-58d9b.firebaseio.com/favoriteRecipes.json";
 
-//    final newRecipe = Recipe1(
-//        title: title,
-//        imageUrl: imageUrl,
-//        rating: rating,
-//        id: recipeId,
-//        detailSource: sourceUrl);
+//    await fetchFavorites();
 
-    await fetchFavorites();
     if (!_favorites.containsValue(recipeId)) {
       await http.post(url, body: json.encode((recipeId)));
       await http.post(
@@ -78,7 +72,7 @@ class Recipe with ChangeNotifier {
           },
         ),
       );
-//      await fetchFavorites();
+      await fetchFavorites();
     }
   }
 
@@ -86,14 +80,11 @@ class Recipe with ChangeNotifier {
     const url = "https://recipedia-58d9b.firebaseio.com/favorites.json";
     final response = await http.get(url);
     final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+
     _favorites.addAll(extractedData);
-//    print(extractedData);
-//    print("exactly the same");
-//    print(_favorites);
+
     _favoritesRecipeId = _favorites.values.toList();
-//    print(_favoritesRecipeId);
-//    await createFavoriteList();
-//    print(favoriteRecipes.length);
+
     notifyListeners();
   }
 

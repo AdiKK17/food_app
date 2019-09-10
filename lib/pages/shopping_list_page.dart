@@ -14,10 +14,12 @@ class ShoppingList extends StatefulWidget {
 }
 
 class _ShoppingList extends State<ShoppingList> {
-
   final GlobalKey<FormState> _ingredientKey = GlobalKey<FormState>();
 
-  String item;
+  String _item;
+
+
+
 
   Widget buildIngredientsTextFields() {
     return TextFormField(
@@ -27,7 +29,7 @@ class _ShoppingList extends State<ShoppingList> {
         hintText: "Add an item",
       ),
       onSaved: (String value) {
-        item = value;
+        _item = value;
       },
     );
   }
@@ -35,13 +37,18 @@ class _ShoppingList extends State<ShoppingList> {
   void submitItem() {
     _ingredientKey.currentState.save();
 
-    if (item.isEmpty) {
+    if (_item.isEmpty) {
       Navigator.of(context).pop();
       return;
     }
 
+    print("flash");
+    print(Provider.of<ShoppingIngredients>(context).itemsToBuy.length);
+    print("ghdghsdfvgsd");
+
     Provider.of<ShoppingIngredients>(context).addItem(
-        item, Provider.of<ShoppingIngredients>(context).itemsToBuy.length);
+        _item, Provider.of<ShoppingIngredients>(context).itemsToBuy.length);
+
     Fluttertoast.showToast(
         msg: "Item Added",
         toastLength: Toast.LENGTH_SHORT,
@@ -52,6 +59,19 @@ class _ShoppingList extends State<ShoppingList> {
         fontSize: 16.0);
 
     Navigator.of(context).pop();
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    print("tifac ceore");
+   print(Provider.of<ShoppingIngredients>(context).itemsToBuy.length);
+   print(Provider.of<ShoppingIngredients>(context).itemsToBuy);
+   print("haassasaasdasdasdasdasa");
+
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -112,72 +132,89 @@ class _ShoppingList extends State<ShoppingList> {
               });
         },
       ),
-      body: Provider.of<ShoppingIngredients>(context).itemsToBuy.length == 0 ? Center(child: Text("-_-  Nothing to buy  -_-",style: TextStyle(fontSize: 30),),) : ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return Dismissible(
-            background: Container(
-              color: Colors.red,
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.delete,
-                    size: 40,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "Remove",
-                    style: TextStyle(fontSize: 30),
+      body: FutureBuilder(
+        future: Provider.of<ShoppingIngredients>(context,listen: false)
+            .fetchAndSet(),
+        builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting ? Center(child: CircularProgressIndicator(),) :
+            Provider.of<ShoppingIngredients>(context).itemsToBuy.length == 0
+                ? Center(
+                    child: Text(
+                      "-_-  Nothing to buy  -_-",
+                      style: TextStyle(fontSize: 30),
+                    ),
                   )
-                ],
-              ),
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(right: 20),
-            ),
-            direction: DismissDirection.startToEnd,
-            onDismissed: (direction) {
-              Provider.of<ShoppingIngredients>(context).deleteItem(index);
-            },
-            key: ValueKey(index),
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-              height: 50,
-              constraints: BoxConstraints(minHeight: 100, maxHeight: 500),
-              width: double.infinity,
-              child: Card(
-                elevation: 7,
-                color: Colors.cyan,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 50,
-                      color: Colors.yellow,
-                      child: Center(
-                        child: Text(
-                          (index + 1).toString(),
-                          style: TextStyle(fontSize: 30),
-                          softWrap: true,
+                : ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      return Dismissible(
+                        background: Container(
+                          color: Colors.red,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.delete,
+                                size: 40,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Remove",
+                                style: TextStyle(fontSize: 30),
+                              )
+                            ],
+                          ),
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(right: 20),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      child: Text(
-                        Provider.of<ShoppingIngredients>(context)
-                            .itemsToBuy[index], //use wrap here
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-        itemCount: Provider.of<ShoppingIngredients>(context).itemsToBuy.length,
+                        direction: DismissDirection.startToEnd,
+                        onDismissed: (direction) {
+                          Provider.of<ShoppingIngredients>(context)
+                              .deleteItem(index);
+                        },
+                        key: ValueKey(index),
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                          height: 50,
+                          constraints:
+                              BoxConstraints(minHeight: 100, maxHeight: 500),
+                          width: double.infinity,
+                          child: Card(
+                            elevation: 7,
+                            color: Colors.cyan,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 50,
+                                  color: Colors.yellow,
+                                  child: Center(
+                                    child: Text(
+                                      (index + 1).toString(),
+                                      style: TextStyle(fontSize: 30),
+                                      softWrap: true,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  child: Text(
+                                    Provider.of<ShoppingIngredients>(context)
+                                        .itemsToBuy[index], //use wrap here
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: Provider.of<ShoppingIngredients>(context)
+                        .itemsToBuy
+                        .length,
+                  ),
       ),
     );
   }

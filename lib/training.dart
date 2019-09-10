@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 
 import './models/cuisine.dart';
 
@@ -6,51 +6,51 @@ const DUMMY_CATEGORIES = const [
   Category(
     id: 'c1',
     title: 'Italian',
-    color: Colors.purple,
+    imageUrl: 'assets/italian.jpg'
   ),
   Category(
     id: 'c2',
-    title: 'Quick & Easy',
-    color: Colors.red,
+    title: 'Chinese',
+    imageUrl: 'assets/chinese.jpg'
   ),
   Category(
     id: 'c3',
-    title: 'Hamburgers',
-    color: Colors.orange,
+    title: 'Indian',
+    imageUrl: 'assets/indian.jpg'
   ),
   Category(
     id: 'c4',
-    title: 'German',
-    color: Colors.amber,
+    title: 'Vegetarian',
+    imageUrl: 'assets/vegetarian.jpg'
   ),
   Category(
     id: 'c5',
-    title: 'Light & Lovely',
-    color: Colors.blue,
+    title: 'NonVegetarian',
+    imageUrl: 'assets/nonveg.jpg'
   ),
   Category(
     id: 'c6',
-    title: 'Exotic',
-    color: Colors.green,
+    title: 'Dessert',
+    imageUrl: 'assets/dessert.jpg'
   ),
   Category(
     id: 'c7',
-    title: 'Breakfast',
-    color: Colors.lightBlue,
+    title: 'Mediterrainian',
+    imageUrl: 'assets/mediterrainian.jpg'
   ),
   Category(
     id: 'c8',
-    title: 'Asian',
-    color: Colors.lightGreen,
+    title: 'French',
+    imageUrl: 'assets/french.jpg'
   ),
   Category(
     id: 'c9',
-    title: 'French',
-    color: Colors.pink,
+    title: 'Drinks',
+    imageUrl: 'assets/drinks.jpg'
   ),
   Category(
     id: 'c10',
-    title: 'Summer',
-    color: Colors.teal,
-  ),
+    title: 'Salad',
+    imageUrl: 'assets/salad.jpg'
+  )
 ];

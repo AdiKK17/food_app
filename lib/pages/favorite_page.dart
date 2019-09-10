@@ -38,7 +38,7 @@ class _ShowFavorites extends State<ShowFavorites> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.grey,
         title: Text(
           "Favorites",
           style: TextStyle(
@@ -49,17 +49,21 @@ class _ShowFavorites extends State<ShowFavorites> {
         ),
         centerTitle: true,
       ),
-
-
-      body: _isLoading
+      body: Provider.of<Recipe>(context).favoriteRecipes.length == 0
           ? Center(
-              child: CircularProgressIndicator(),
+              child: Text(
+                "You have no favorites",
+                style: TextStyle(fontSize: 30),
+              ),
             )
-          : ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: <Widget>[
-                    InkWell(
+          : _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(margin: EdgeInsets.all(10),color: Colors.black12,child: ListTile(
+                      contentPadding: EdgeInsets.all(20),
                       onTap: () async {
                         if (await canLaunch(Provider.of<Recipe>(context)
                             .favoriteRecipes[index]
@@ -75,71 +79,16 @@ class _ShowFavorites extends State<ShowFavorites> {
                           print("could not launch the url");
                         }
                       },
-                      child: Container(
-                        color: Colors.black38,
-                        height: 350,
-                        width: double.infinity,
-                        child: GridTile(
-                          child: Image.network(
-                            Provider.of<Recipe>(context)
-                                .favoriteRecipes[index]
-                                .imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                          footer: GridTileBar(
-                            backgroundColor: Colors.black38,
-                            title: Text(
-                              Provider.of<Recipe>(context)
-                                  .favoriteRecipes[index]
-                                  .title,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          header: GridTileBar(
-                            backgroundColor: Colors.black38,
-                            title: Text(
-                              Provider.of<Recipe>(context)
-                                  .favoriteRecipes[index]
-                                  .rating,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-//                    Container(
-//                      width: double.infinity,
-//                      height: 60,
-//                      child: Center(
-//                        child: IconButton(
-//                          icon: Icon(
-//                            Icons.favorite,
-//                            color: Colors.black,
-//                            size: 40,
-//                          ),
-//                          onPressed: () {
-//                            Provider.of<Recipe>(context).favoriteIt(
-//                                Provider.of<Recipe>(context)
-//                                    .favoriteRecipes[index]
-//                                    .id);
-//                            Scaffold.of(context).hideCurrentSnackBar();
-//                            Scaffold.of(context).showSnackBar(
-//                              SnackBar(
-//                                content: Text("recipe added to favorites"),
-//                                duration: Duration(seconds: 2),
-//                              ),
-//                            );
-//                          },
-//                        ),
-//                      ),
-//                      color: Colors.lightGreen,
-//                      margin: EdgeInsets.only(bottom: 10),
-//                    )
-                  ],
-                );
-              },
-              itemCount: Provider.of<Recipe>(context).favoriteRecipes.length,
-            ),
+                      leading: CircleAvatar(radius: 30.0,backgroundImage: NetworkImage(Provider.of<Recipe>(context)
+                          .favoriteRecipes[index]
+                          .imageUrl),),
+                        title: Text(Provider.of<Recipe>(context).favoriteRecipes[index].title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                      subtitle: Text("Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
+                    ),);
+                  },
+                  itemCount:
+                      Provider.of<Recipe>(context).favoriteRecipes.length,
+                ),
     );
   }
 }

@@ -11,18 +11,19 @@ class CuisinePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Cuisines"),
         centerTitle: true,
+        backgroundColor: Colors.teal,
       ),
-      body: GridView.builder(
+      body: Container(color: Colors.teal,child: GridView.builder(
         itemCount: DUMMY_CATEGORIES.length,
         itemBuilder: (context, index) => CuisineItem(DUMMY_CATEGORIES[index].id,
-            DUMMY_CATEGORIES[index].title, DUMMY_CATEGORIES[index].color),
-        padding: EdgeInsets.all(1.0),
+            DUMMY_CATEGORIES[index].title,DUMMY_CATEGORIES[index].imageUrl),
+        padding: EdgeInsets.all(2.0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1,
-            childAspectRatio: 0.8,
+            crossAxisCount: 2,
+            childAspectRatio: 0.6,
             mainAxisSpacing: 20,
             crossAxisSpacing: 12),
       ),
-    );
+    ),);
   }
 }

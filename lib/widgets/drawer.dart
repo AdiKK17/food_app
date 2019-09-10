@@ -9,6 +9,7 @@ import '../pages/shopping_list_page.dart';
 import '../pages/cuisine_page.dart';
 import '../providers/auth.dart';
 import '../main.dart';
+import '../pages/home_page.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
