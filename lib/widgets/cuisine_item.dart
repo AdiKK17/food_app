@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../pages/cuisines/cuisine_recipes_page.dart';
+
 class CuisineItem extends StatelessWidget {
+
+//  final List<Widget> cuisinePages = [ChineseCuisinePage()];
+
   final String title;
   final String id;
   final String imageUrl;
@@ -25,7 +30,7 @@ class CuisineItem extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () => Navigator.of(context).pop(),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CuisineRecipesPage(title))),
     );
   }
 }

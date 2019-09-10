@@ -8,6 +8,7 @@ import './providers/auth.dart';
 import './pages/loading_page.dart';
 import './providers/recipe.dart';
 import './providers/shopping_list.dart';
+import './providers/recipe_by_cuisine.dart';
 
 main() {
   runApp(MyFoodApp());
@@ -29,7 +30,8 @@ class _MyFoodApp extends State<MyFoodApp> {
       providers: [
         ChangeNotifierProvider.value(value: Auth()),
         ChangeNotifierProvider.value(value: Recipe()),
-        ChangeNotifierProvider.value(value: ShoppingIngredients())
+        ChangeNotifierProvider.value(value: ShoppingIngredients()),
+        ChangeNotifierProvider.value(value: RecipeByCuisine()),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
