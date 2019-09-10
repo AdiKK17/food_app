@@ -9,6 +9,7 @@ import './pages/loading_page.dart';
 import './providers/recipe.dart';
 import './providers/shopping_list.dart';
 import './providers/recipe_by_cuisine.dart';
+import './providers/fetch_recipes_by_search.dart';
 
 main() {
   runApp(MyFoodApp());
@@ -32,6 +33,7 @@ class _MyFoodApp extends State<MyFoodApp> {
         ChangeNotifierProvider.value(value: Recipe()),
         ChangeNotifierProvider.value(value: ShoppingIngredients()),
         ChangeNotifierProvider.value(value: RecipeByCuisine()),
+        ChangeNotifierProvider.value(value: SearchedRecipes()),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(

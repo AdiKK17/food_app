@@ -120,31 +120,61 @@ class _HomePage extends State<HomePage> {
                       width: double.infinity,
                       height: 60,
                       child: Center(
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: Colors.black,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            Provider.of<Recipe>(context).favoriteIt(
-                                Provider.of<Recipe>(context).item[index].title,
-                                Provider.of<Recipe>(context)
-                                    .item[index]
-                                    .imageUrl,
-                                Provider.of<Recipe>(context).item[index].rating,
-                                Provider.of<Recipe>(context).item[index].id,
-                                Provider.of<Recipe>(context)
-                                    .item[index]
-                                    .detailSource);
-                            Scaffold.of(context).hideCurrentSnackBar();
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("recipe added to favorites"),
-                                duration: Duration(seconds: 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: Colors.black,
+                                size: 40,
                               ),
-                            );
-                          },
+                              onPressed: () {
+                                Provider.of<Recipe>(context).favoriteIt(
+                                    Provider.of<Recipe>(context)
+                                        .item[index]
+                                        .title,
+                                    Provider.of<Recipe>(context)
+                                        .item[index]
+                                        .imageUrl,
+                                    Provider.of<Recipe>(context)
+                                        .item[index]
+                                        .rating,
+                                    Provider.of<Recipe>(context).item[index].id,
+                                    Provider.of<Recipe>(context)
+                                        .item[index]
+                                        .detailSource);
+                                Scaffold.of(context).hideCurrentSnackBar();
+                                Scaffold.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("recipe added to favorites"),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              width: 80,
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.videocam,
+                                size: 40,
+                              ),
+                              onPressed: () async {
+                                if (await canLaunch("https://www.google.com")) {
+                                  await launch(
+                                    "https://www.youtube.com/watch?v=sK-8k1Dq1xM",
+                                    forceSafariVC: true,
+                                    forceWebView: true,
+                                    statusBarBrightness: Brightness.dark,
+                                  );
+                                } else {
+                                  print("could not launch the url");
+                                }
+                              },
+                            )
+                          ],
                         ),
                       ),
                       color: Colors.lightGreen,

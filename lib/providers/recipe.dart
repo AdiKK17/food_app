@@ -25,13 +25,13 @@ class Recipe with ChangeNotifier {
   Future<void> fetchRecipes() async {
 //    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
     const url =
-        "https://www.food2fork.com/api/search?key=f7d92b58ec2e350119d5c25b5c491d04";
+        "https://www.food2fork.com/api/search?key=5b0c8bee914f431511fc53144ec3deac";
 
     final response = await http.get(url);
     final responseData = json.decode(response.body);
 
     final List<Recipe1> recipe = [];
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < responseData["count"]; i++) {
       String imageUrl = responseData["recipes"][i]["image_url"];
       String title = responseData["recipes"][i]["title"];
       String rating = responseData["recipes"][i]["social_rank"].toString();

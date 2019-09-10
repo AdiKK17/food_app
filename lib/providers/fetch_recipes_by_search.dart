@@ -6,19 +6,19 @@ import 'package:http/http.dart' as http;
 
 import '../models/recipe1.dart';
 
-class RecipeByCuisine extends ChangeNotifier{
+class SearchedRecipes with ChangeNotifier {
+  List<Recipe1> _searchedItems = [];
 
-  List<Recipe1> _cuisineList = [];
+  //getters
 
-  List<Recipe1> get cuisineList {
-    return List.from(_cuisineList);
+
+  List<Recipe1> get searchedItems {
+    return List.from(_searchedItems);
   }
 
-
-  Future<void> fetchRecipes(String title) async {
-//    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
+  Future<void> fetchSearchedRecipes(String query) async {
     final url =
-        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&q=$title";
+        "https://www.food2fork.com/api/search?key=5b0c8bee914f431511fc53144ec3deac&q=$query";
 
     final response = await http.get(url);
     final responseData = json.decode(response.body);
@@ -39,9 +39,7 @@ class RecipeByCuisine extends ChangeNotifier{
           detailSource: sourceUrl));
     }
 
-    _cuisineList = recipe;
+    _searchedItems = recipe;
     notifyListeners();
   }
-
-
 }
