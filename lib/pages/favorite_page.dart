@@ -104,6 +104,7 @@ class _ShowFavorites extends State<ShowFavorites> {
                           ),
                           subtitle: Text(
                               "Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
+                          trailing: IconButton(icon: Icon(Icons.delete), onPressed: () => Provider.of<Recipe>(context).deFavoriteIt(index)),
                         ),
                       );
                     },

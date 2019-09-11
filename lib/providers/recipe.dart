@@ -82,15 +82,26 @@ class Recipe with ChangeNotifier {
     final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
 
     _favorites.addAll(extractedData);
-
-    _favoritesRecipeId = _favorites.values.toList();
+    _favoritesRecipeId = _favorites.keys.toList();
 
     notifyListeners();
   }
 
-  Future<void> deFavoriteIt(String recipeId) async {
-    const url = "https://recipedia-58d9b.firebaseio.com/favorites.json";
+  Future<void> deFavoriteIt(int index) async {
+    await fetchFavorites();
+
+    final favoriteRecipesId = _favoriteRecipes[index].firebaseId;
+    final favoritesId = _favoritesRecipeId[index];
+
+    final url = "https://recipedia-58d9b.firebaseio.com/favoriteRecipes/$favoriteRecipesId.json";
+    final anotherUrl = "https://recipedia-58d9b.firebaseio.com/favorites/$favoritesId.json";
+
+    _favoriteRecipes.removeAt(index);
+    _favoritesRecipeId.removeAt(index);
+
     await http.delete(url);
+    await http.delete(anotherUrl);
+    notifyListeners();
   }
 
 //  Future<void> createFavoriteList() async {
@@ -130,6 +141,7 @@ class Recipe with ChangeNotifier {
     final extractedData =
         json.decode(responseData.body) as Map<String, dynamic>;
 
+
     if(extractedData == null){
       return;
     }
@@ -139,6 +151,7 @@ class Recipe with ChangeNotifier {
       (fireId, recipeData) {
         temporaryFavorite.add(
           Recipe1(
+            firebaseId: fireId,
             title: recipeData["title"],
             imageUrl: recipeData["imageUrl"],
             rating: recipeData["rating"],
