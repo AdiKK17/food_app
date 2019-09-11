@@ -25,7 +25,7 @@ class Recipe with ChangeNotifier {
   Future<void> fetchRecipes() async {
 //    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
     const url =
-        "https://www.food2fork.com/api/search?key=5b0c8bee914f431511fc53144ec3deac";
+        "https://www.food2fork.com/api/search?key=02303a150e2e3c9f23e70a43dd6ef574";
 
     final response = await http.get(url);
     final responseData = json.decode(response.body);
@@ -129,6 +129,11 @@ class Recipe with ChangeNotifier {
     final responseData = await http.get(url);
     final extractedData =
         json.decode(responseData.body) as Map<String, dynamic>;
+
+    if(extractedData == null){
+      return;
+    }
+
     final List<Recipe1> temporaryFavorite = [];
     extractedData.forEach(
       (fireId, recipeData) {

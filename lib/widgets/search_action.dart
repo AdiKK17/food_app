@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,6 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../providers/fetch_recipes_by_search.dart';
 
 class DataSearch extends SearchDelegate<String> {
+
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
+
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
@@ -28,13 +32,20 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
+
     bool _isLoading = true;
+    
+    print("its being called again adn again");
 
-    Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(query).then((_) {
-      _isLoading = false;
-    });
 
-    return ListView.builder(
+    _memoizer.runOnce(() async {await Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(query);});
+
+
+//    Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(query).then((_) {
+//      _isLoading = false;
+//    });
+
+    return Provider.of<SearchedRecipes>(context).searchedItems.length == 0 ? Center(child: CircularProgressIndicator(),) :  ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 margin: EdgeInsets.all(10),
@@ -90,6 +101,6 @@ class DataSearch extends SearchDelegate<String> {
               ),
             ),
           )
-        : Container();
+        : Container(child: Center(child: CircularProgressIndicator(),),);
   }
 }

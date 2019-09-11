@@ -37,6 +37,7 @@ class _MyFoodApp extends State<MyFoodApp> {
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: auth.isAuthenticated
               ? HomePage()
               : FutureBuilder(

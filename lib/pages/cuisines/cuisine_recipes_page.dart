@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,6 @@ import '../../providers/recipe_by_cuisine.dart';
 import '../../providers/recipe.dart';
 
 class CuisineRecipesPage extends StatefulWidget {
-
   final String title;
 
   CuisineRecipesPage(this.title);
@@ -22,6 +22,7 @@ class CuisineRecipesPage extends StatefulWidget {
 class _CuisineRecipesPage extends State<CuisineRecipesPage> {
   var _isInit = true;
   var _isLoading = false;
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
 
   @override
   void didChangeDependencies() {
@@ -29,11 +30,23 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<RecipeByCuisine>(context).fetchRecipes(widget.title).then((_) {
-        setState(() {
-          _isLoading = false;
+
+      _memoizer.runOnce(() async {
+        Provider.of<RecipeByCuisine>(context)
+            .fetchRecipes(widget.title)
+            .then((_) {
+          setState(() {
+            _isLoading = false;
+          });
         });
       });
+
+//     Provider.of<RecipeByCuisine>(context).fetchRecipes(widget.title).then((_) {
+//        setState(() {
+//          _isLoading = false;
+//        });
+//      });
+
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -57,93 +70,107 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
       ),
       body: _isLoading
           ? Center(
-        child: CircularProgressIndicator(),
-      )
+              child: CircularProgressIndicator(),
+            )
           : ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: <Widget>[
-              InkWell(
-                onTap: () async {
-                  if (await canLaunch(Provider.of<RecipeByCuisine>(context)
-                      .cuisineList[index]
-                      .detailSource)) {
-                    await launch(
-                      Provider.of<RecipeByCuisine>(context)
-                          .cuisineList[index]
-                          .detailSource,
-                      forceSafariVC: true,
-                      forceWebView: true,
-                    );
-                  } else {
-                    print("could not launch the url");
-                  }
-                },
-                child: Container(
-                  color: Colors.black38,
-                  height: 350,
-                  width: double.infinity,
-                  child: GridTile(
-                    child: Image.network(
-                      Provider.of<RecipeByCuisine>(context).cuisineList[index].imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                    footer: GridTileBar(
-                      backgroundColor: Colors.black38,
-                      title: Text(
-                        Provider.of<RecipeByCuisine>(context).cuisineList[index].title,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    header: GridTileBar(
-                      backgroundColor: Colors.black38,
-                      title: Text(
-                        Provider.of<RecipeByCuisine>(context).cuisineList[index].rating,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 60,
-                child: Center(
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.favorite,
-                      color: Colors.black,
-                      size: 40,
-                    ),
-                    onPressed: () {
-                      Provider.of<Recipe>(context).favoriteIt(
-                          Provider.of<RecipeByCuisine>(context).cuisineList[index].title,
-                          Provider.of<RecipeByCuisine>(context)
-                              .cuisineList[index]
-                              .imageUrl,
-                          Provider.of<RecipeByCuisine>(context).cuisineList[index].rating,
-                          Provider.of<RecipeByCuisine>(context).cuisineList[index].id,
-                          Provider.of<RecipeByCuisine>(context)
-                              .cuisineList[index]
-                              .detailSource);
-                      Scaffold.of(context).hideCurrentSnackBar();
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Recipe added to favorites"),
-                          duration: Duration(seconds: 2),
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () async {
+                        if (await canLaunch(
+                            Provider.of<RecipeByCuisine>(context)
+                                .cuisineList[index]
+                                .detailSource)) {
+                          await launch(
+                            Provider.of<RecipeByCuisine>(context)
+                                .cuisineList[index]
+                                .detailSource,
+                            forceSafariVC: true,
+                            forceWebView: true,
+                          );
+                        } else {
+                          print("could not launch the url");
+                        }
+                      },
+                      child: Container(
+                        color: Colors.black38,
+                        height: 350,
+                        width: double.infinity,
+                        child: GridTile(
+                          child: Image.network(
+                            Provider.of<RecipeByCuisine>(context)
+                                .cuisineList[index]
+                                .imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                          footer: GridTileBar(
+                            backgroundColor: Colors.black38,
+                            title: Text(
+                              Provider.of<RecipeByCuisine>(context)
+                                  .cuisineList[index]
+                                  .title,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          header: GridTileBar(
+                            backgroundColor: Colors.black38,
+                            title: Text(
+                              Provider.of<RecipeByCuisine>(context)
+                                  .cuisineList[index]
+                                  .rating,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-                color: Colors.lightGreen,
-                margin: EdgeInsets.only(bottom: 10),
-              )
-            ],
-          );
-        },
-        itemCount: Provider.of<RecipeByCuisine>(context).cuisineList.length,
-      ),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 60,
+                      child: Center(
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.favorite,
+                            color: Colors.black,
+                            size: 40,
+                          ),
+                          onPressed: () {
+                            Provider.of<Recipe>(context).favoriteIt(
+                                Provider.of<RecipeByCuisine>(context)
+                                    .cuisineList[index]
+                                    .title,
+                                Provider.of<RecipeByCuisine>(context)
+                                    .cuisineList[index]
+                                    .imageUrl,
+                                Provider.of<RecipeByCuisine>(context)
+                                    .cuisineList[index]
+                                    .rating,
+                                Provider.of<RecipeByCuisine>(context)
+                                    .cuisineList[index]
+                                    .id,
+                                Provider.of<RecipeByCuisine>(context)
+                                    .cuisineList[index]
+                                    .detailSource);
+                            Scaffold.of(context).hideCurrentSnackBar();
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Recipe added to favorites"),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      color: Colors.lightGreen,
+                      margin: EdgeInsets.only(bottom: 10),
+                    )
+                  ],
+                );
+              },
+              itemCount:
+                  Provider.of<RecipeByCuisine>(context).cuisineList.length,
+            ),
     );
   }
 }

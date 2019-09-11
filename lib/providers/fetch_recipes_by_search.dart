@@ -17,8 +17,11 @@ class SearchedRecipes with ChangeNotifier {
   }
 
   Future<void> fetchSearchedRecipes(String query) async {
+
+    print("gdfgfgfgfsgfgfggdfgdfg....dash");
+
     final url =
-        "https://www.food2fork.com/api/search?key=5b0c8bee914f431511fc53144ec3deac&q=$query";
+        "https://www.food2fork.com/api/search?key=dc56c1573a8df1aa30d1eadd1d428a63&q=$query";
 
     final response = await http.get(url);
     final responseData = json.decode(response.body);
@@ -38,6 +41,10 @@ class SearchedRecipes with ChangeNotifier {
           id: id,
           detailSource: sourceUrl));
     }
+
+    print("dash");
+    print("hahs");
+
 
     _searchedItems = recipe;
     notifyListeners();

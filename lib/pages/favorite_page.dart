@@ -33,6 +33,10 @@ class _ShowFavorites extends State<ShowFavorites> {
     super.didChangeDependencies();
   }
 
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<Recipe>(context).createFavoriteList();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -49,46 +53,64 @@ class _ShowFavorites extends State<ShowFavorites> {
         ),
         centerTitle: true,
       ),
-      body: Provider.of<Recipe>(context).favoriteRecipes.length == 0
-          ? Center(
-              child: Text(
-                "You have no favorites",
-                style: TextStyle(fontSize: 30),
-              ),
-            )
-          : _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(margin: EdgeInsets.all(10),color: Colors.black12,child: ListTile(
-                      contentPadding: EdgeInsets.all(20),
-                      onTap: () async {
-                        if (await canLaunch(Provider.of<Recipe>(context)
-                            .favoriteRecipes[index]
-                            .detailSource)) {
-                          await launch(
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProducts(context),
+        child: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Provider.of<Recipe>(context).favoriteRecipes.length == 0
+                ? Center(
+                    child: Text(
+                      "You have no favorites",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  )
+                : ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        margin: EdgeInsets.all(10),
+                        color: Colors.black12,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(20),
+                          onTap: () async {
+                            if (await canLaunch(Provider.of<Recipe>(context)
+                                .favoriteRecipes[index]
+                                .detailSource)) {
+                              await launch(
+                                Provider.of<Recipe>(context)
+                                    .favoriteRecipes[index]
+                                    .detailSource,
+                                forceSafariVC: true,
+                                forceWebView: true,
+                              );
+                            } else {
+                              print("could not launch the url");
+                            }
+                          },
+                          leading: CircleAvatar(
+                            radius: 30.0,
+                            backgroundImage: NetworkImage(
+                                Provider.of<Recipe>(context)
+                                    .favoriteRecipes[index]
+                                    .imageUrl),
+                          ),
+                          title: Text(
                             Provider.of<Recipe>(context)
                                 .favoriteRecipes[index]
-                                .detailSource,
-                            forceSafariVC: true,
-                            forceWebView: true,
-                          );
-                        } else {
-                          print("could not launch the url");
-                        }
-                      },
-                      leading: CircleAvatar(radius: 30.0,backgroundImage: NetworkImage(Provider.of<Recipe>(context)
-                          .favoriteRecipes[index]
-                          .imageUrl),),
-                        title: Text(Provider.of<Recipe>(context).favoriteRecipes[index].title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                      subtitle: Text("Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
-                    ),);
-                  },
-                  itemCount:
-                      Provider.of<Recipe>(context).favoriteRecipes.length,
-                ),
+                                .title,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                              "Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
+                        ),
+                      );
+                    },
+                    itemCount:
+                        Provider.of<Recipe>(context).favoriteRecipes.length,
+                  ),
+      ),
     );
   }
 }
