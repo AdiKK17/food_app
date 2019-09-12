@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/recipe_by_cuisine.dart';
 import '../../providers/recipe.dart';
+import '../../widgets/webview.dart';
 
 class CuisineRecipesPage extends StatefulWidget {
   final String title;
@@ -78,19 +79,17 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
                   children: <Widget>[
                     InkWell(
                       onTap: () async {
-                        if (await canLaunch(
-                            Provider.of<RecipeByCuisine>(context)
-                                .cuisineList[index]
-                                .detailSource)) {
-                          await launch(
-                            Provider.of<RecipeByCuisine>(context)
-                                .cuisineList[index]
-                                .detailSource,
-                            forceSafariVC: true,
-                            forceWebView: true,
+                        if (await canLaunch(Provider.of<RecipeByCuisine>(context)
+                            .cuisineList[index]
+                            .detailSource)) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => WbviewScreen(
+                                  Provider.of<RecipeByCuisine>(context)
+                                      .cuisineList[index]
+                                      .detailSource),
+                            ),
                           );
-                        } else {
-                          print("could not launch the url");
                         }
                       },
                       child: Container(

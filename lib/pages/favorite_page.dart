@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../providers/recipe.dart';
+import '../widgets/webview.dart';
 
 class ShowFavorites extends StatefulWidget {
   @override
@@ -77,17 +78,31 @@ class _ShowFavorites extends State<ShowFavorites> {
                             if (await canLaunch(Provider.of<Recipe>(context)
                                 .favoriteRecipes[index]
                                 .detailSource)) {
-                              await launch(
-                                Provider.of<Recipe>(context)
-                                    .favoriteRecipes[index]
-                                    .detailSource,
-                                forceSafariVC: true,
-                                forceWebView: true,
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => WbviewScreen(
+                                      Provider.of<Recipe>(context)
+                                          .favoriteRecipes[index]
+                                          .detailSource),
+                                ),
                               );
-                            } else {
-                              print("could not launch the url");
                             }
                           },
+//                          onTap: () async {
+//                            if (await canLaunch(Provider.of<Recipe>(context)
+//                                .favoriteRecipes[index]
+//                                .detailSource)) {
+//                              await launch(
+//                                Provider.of<Recipe>(context)
+//                                    .favoriteRecipes[index]
+//                                    .detailSource,
+//                                forceSafariVC: true,
+//                                forceWebView: true,
+//                              );
+//                            } else {
+//                              print("could not launch the url");
+//                            }
+//                          },
                           leading: CircleAvatar(
                             radius: 30.0,
                             backgroundImage: NetworkImage(
@@ -104,7 +119,10 @@ class _ShowFavorites extends State<ShowFavorites> {
                           ),
                           subtitle: Text(
                               "Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
-                          trailing: IconButton(icon: Icon(Icons.delete), onPressed: () => Provider.of<Recipe>(context).deFavoriteIt(index)),
+                          trailing: IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => Provider.of<Recipe>(context)
+                                  .deFavoriteIt(index)),
                         ),
                       );
                     },

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../widgets/drawer.dart';
 import '../widgets/search_action.dart';
 import '../providers/recipe.dart';
+import '../widgets/webview.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -79,15 +80,14 @@ class _HomePage extends State<HomePage> {
                         if (await canLaunch(Provider.of<Recipe>(context)
                             .item[index]
                             .detailSource)) {
-                          await launch(
-                            Provider.of<Recipe>(context)
-                                .item[index]
-                                .detailSource,
-                            forceSafariVC: true,
-                            forceWebView: true,
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => WbviewScreen(
+                                  Provider.of<Recipe>(context)
+                                      .item[index]
+                                      .detailSource),
+                            ),
                           );
-                        } else {
-                          print("could not launch the url");
                         }
                       },
                       child: Container(
@@ -162,15 +162,14 @@ class _HomePage extends State<HomePage> {
                                 size: 40,
                               ),
                               onPressed: () async {
-                                if (await canLaunch("https://www.google.com")) {
-                                  await launch(
-                                    "https://www.youtube.com/watch?v=sK-8k1Dq1xM",
-                                    forceSafariVC: true,
-                                    forceWebView: true,
-                                    statusBarBrightness: Brightness.dark,
+                                if (await canLaunch(
+                                    "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}")) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => WbviewScreen(
+                                          "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}"),
+                                    ),
                                   );
-                                } else {
-                                  print("could not launch the url");
                                 }
                               },
                             )

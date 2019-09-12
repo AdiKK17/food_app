@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/recipe_by_cuisine.dart';
 import '../../providers/recipe.dart';
+import '../../widgets/webview.dart';
 
 class BreakFastPage extends StatefulWidget {
 
@@ -65,15 +66,14 @@ class _BreakFastPage extends State<BreakFastPage> {
                   if (await canLaunch(Provider.of<RecipeByCuisine>(context)
                       .cuisineList[index]
                       .detailSource)) {
-                    await launch(
-                      Provider.of<RecipeByCuisine>(context)
-                          .cuisineList[index]
-                          .detailSource,
-                      forceSafariVC: true,
-                      forceWebView: true,
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WbviewScreen(
+                            Provider.of<RecipeByCuisine>(context)
+                                .cuisineList[index]
+                                .detailSource),
+                      ),
                     );
-                  } else {
-                    print("could not launch the url");
                   }
                 },
                 child: Container(

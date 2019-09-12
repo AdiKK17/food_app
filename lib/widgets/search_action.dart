@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../providers/fetch_recipes_by_search.dart';
+import '../widgets/webview.dart';
 
 class DataSearch extends SearchDelegate<String> {
 
@@ -56,17 +57,31 @@ class DataSearch extends SearchDelegate<String> {
                     if (await canLaunch(Provider.of<SearchedRecipes>(context)
                         .searchedItems[index]
                         .detailSource)) {
-                      await launch(
-                        Provider.of<SearchedRecipes>(context)
-                            .searchedItems[index]
-                            .detailSource,
-                        forceSafariVC: true,
-                        forceWebView: true,
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => WbviewScreen(
+                              Provider.of<SearchedRecipes>(context)
+                                  .searchedItems[index]
+                                  .detailSource),
+                        ),
                       );
-                    } else {
-                      print("could not launch the url");
                     }
                   },
+//                  onTap: () async {
+//                    if (await canLaunch(Provider.of<SearchedRecipes>(context)
+//                        .searchedItems[index]
+//                        .detailSource)) {
+//                      await launch(
+//                        Provider.of<SearchedRecipes>(context)
+//                            .searchedItems[index]
+//                            .detailSource,
+//                        forceSafariVC: true,
+//                        forceWebView: true,
+//                      );
+//                    } else {
+//                      print("could not launch the url");
+//                    }
+//                  },
                   leading: CircleAvatar(
                     radius: 30.0,
                     backgroundImage: NetworkImage(
