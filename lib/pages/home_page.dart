@@ -36,6 +36,10 @@ class _HomePage extends State<HomePage> {
     super.didChangeDependencies();
   }
 
+  Future<void> _refreshHomeProducts(BuildContext context) async {
+    await Provider.of<Recipe>(context).fetchRecipes();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -67,7 +71,7 @@ class _HomePage extends State<HomePage> {
         centerTitle: true,
       ),
       drawer: TheDrawer(),
-      body: _isLoading
+      body: RefreshIndicator(onRefresh: () => _refreshHomeProducts(context),child: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
@@ -184,6 +188,6 @@ class _HomePage extends State<HomePage> {
               },
               itemCount: Provider.of<Recipe>(context).item.length,
             ),
-    );
+    ),);
   }
 }

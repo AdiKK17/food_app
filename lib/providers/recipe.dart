@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -24,8 +25,10 @@ class Recipe with ChangeNotifier {
 
   Future<void> fetchRecipes() async {
 //    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
-    const url =
-        "https://www.food2fork.com/api/search?key=02303a150e2e3c9f23e70a43dd6ef574";
+
+  final int randomPageNo =  int.parse(Random().nextInt(3000).toString());
+    final url =
+        "https://www.food2fork.com/api/search?key=02303a150e2e3c9f23e70a43dd6ef574&page=$randomPageNo";
 
     final response = await http.get(url);
     final responseData = json.decode(response.body);
