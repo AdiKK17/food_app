@@ -25,7 +25,7 @@ const DUMMY_CATEGORIES = const [
   ),
   Category(
     id: 'c5',
-    title: 'NonVegetarian',
+    title: 'Meat',
     imageUrl: 'assets/nonveg.jpg'
   ),
   Category(
@@ -35,7 +35,7 @@ const DUMMY_CATEGORIES = const [
   ),
   Category(
     id: 'c7',
-    title: 'Mediterrainian',
+    title: 'Sea',
     imageUrl: 'assets/mediterrainian.jpg'
   ),
   Category(

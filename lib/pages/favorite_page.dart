@@ -24,7 +24,7 @@ class _ShowFavorites extends State<ShowFavorites> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<Recipe>(context).createFavoriteList().then((_) {
+      Provider.of<Recipe>(context).createFavoriteList(context).then((_) {
         setState(() {
           _isLoading = false;
         });
@@ -35,7 +35,7 @@ class _ShowFavorites extends State<ShowFavorites> {
   }
 
   Future<void> _refreshProducts(BuildContext context) async {
-    await Provider.of<Recipe>(context).createFavoriteList();
+    await Provider.of<Recipe>(context).createFavoriteList(context);
   }
 
   @override
@@ -122,7 +122,7 @@ class _ShowFavorites extends State<ShowFavorites> {
                           trailing: IconButton(
                               icon: Icon(Icons.delete),
                               onPressed: () => Provider.of<Recipe>(context)
-                                  .deFavoriteIt(index)),
+                                  .deFavoriteIt(context,index)),
                         ),
                       );
                     },

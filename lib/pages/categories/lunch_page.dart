@@ -99,7 +99,7 @@ class _LunchPage extends State<LunchPage> {
                     size: 40,
                   ),
                   onPressed: () {
-                    Provider.of<Recipe>(context).favoriteIt(
+                    Provider.of<Recipe>(context).favoriteIt(context,
                         Provider.of<RecipeByCuisine>(context).cuisineList[index].title,
                         Provider.of<RecipeByCuisine>(context)
                             .cuisineList[index]

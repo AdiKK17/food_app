@@ -22,4 +22,10 @@ class DBHelper {
     final db = await DBHelper.database();
     return db.query(table);
   }
+
+  static Future<void> delete(String table, int id) async {
+    final db = await DBHelper.database();
+    db.delete(table,where: "id = $id");
+    print("itworks");
+  }
 }

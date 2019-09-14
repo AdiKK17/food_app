@@ -18,6 +18,10 @@ class Auth with ChangeNotifier {
     return token != null;
   }
 
+  String get userId{
+    return _userId;
+  }
+
   String get token {
     if (_expiryDate != null &&
         _expiryDate.isAfter(DateTime.now()) &&
@@ -38,11 +42,15 @@ class Auth with ChangeNotifier {
         ),
       );
 
+
       final responseData = json.decode(response.body);
 
       if (responseData['error'] != null) {
         throw HttpException(responseData["error"]["message"]);
       }
+
+      //      print(responseData["idToken"]);
+      //      print(responseData["localId"]);                                                   //local id is the id given by the firebase to a user
 
       _token = responseData["idToken"];
       _userId = responseData["localId"];

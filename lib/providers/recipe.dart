@@ -4,8 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../models/recipe1.dart';
+import './auth.dart';
 
 class Recipe with ChangeNotifier {
   List<Recipe1> _items = [];
@@ -53,11 +55,11 @@ class Recipe with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> favoriteIt(String title, String imageUrl, String rating,
+  Future<void> favoriteIt(BuildContext context ,String title, String imageUrl, String rating,
       String recipeId, String sourceUrl) async {
-    const url = "https://recipedia-58d9b.firebaseio.com/favorites.json";
-    const anotherUrl =
-        "https://recipedia-58d9b.firebaseio.com/favoriteRecipes.json";
+    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favorites.json";
+    final anotherUrl =
+        "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes.json";
 
 //    await fetchFavorites();
 
@@ -75,12 +77,12 @@ class Recipe with ChangeNotifier {
           },
         ),
       );
-      await fetchFavorites();
+      await fetchFavorites(context);
     }
   }
 
-  Future<void> fetchFavorites() async {
-    const url = "https://recipedia-58d9b.firebaseio.com/favorites.json";
+  Future<void> fetchFavorites(BuildContext context) async {
+    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favorites.json";
     final response = await http.get(url);
     final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
 
@@ -90,14 +92,15 @@ class Recipe with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deFavoriteIt(int index) async {
-    await fetchFavorites();
+  Future<void> deFavoriteIt(BuildContext context, int index) async {
+    await fetchFavorites(context);
 
     final favoriteRecipesId = _favoriteRecipes[index].firebaseId;
     final favoritesId = _favoritesRecipeId[index];
 
-    final url = "https://recipedia-58d9b.firebaseio.com/favoriteRecipes/$favoriteRecipesId.json";
-    final anotherUrl = "https://recipedia-58d9b.firebaseio.com/favorites/$favoritesId.json";
+    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes/$favoriteRecipesId.json";
+    final anotherUrl = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favorites/$favoritesId.json";
+
 
     _favoriteRecipes.removeAt(index);
     _favoritesRecipeId.removeAt(index);
@@ -138,8 +141,8 @@ class Recipe with ChangeNotifier {
 //    notifyListeners();
 //  }
 
-  Future<void> createFavoriteList() async {
-    const url = "https://recipedia-58d9b.firebaseio.com/favoriteRecipes.json";
+  Future<void> createFavoriteList(BuildContext context) async {
+    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes.json";
     final responseData = await http.get(url);
     final extractedData =
         json.decode(responseData.body) as Map<String, dynamic>;

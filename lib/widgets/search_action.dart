@@ -8,7 +8,6 @@ import '../providers/fetch_recipes_by_search.dart';
 import '../widgets/webview.dart';
 
 class DataSearch extends SearchDelegate<String> {
-
   final AsyncMemoizer _memoizer = AsyncMemoizer();
 
   @override
@@ -33,20 +32,15 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
+    _memoizer.runOnce(() async {
+      await Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(query);
+    });
 
-    bool _isLoading = true;
-    
-    print("its being called again adn again");
-
-
-    _memoizer.runOnce(() async {await Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(query);});
-
-
-//    Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(query).then((_) {
-//      _isLoading = false;
-//    });
-
-    return Provider.of<SearchedRecipes>(context).searchedItems.length == 0 ? Center(child: CircularProgressIndicator(),) :  ListView.builder(
+    return Provider.of<SearchedRecipes>(context).searchedItems.length == 0
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 margin: EdgeInsets.all(10),
@@ -116,6 +110,10 @@ class DataSearch extends SearchDelegate<String> {
               ),
             ),
           )
-        : Container(child: Center(child: CircularProgressIndicator(),),);
+        : Container(
+            child: Center(
+              child: Text("Hit Enter for results"),
+            ),
+          );
   }
 }

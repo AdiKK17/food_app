@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,6 +19,7 @@ class _ShoppingList extends State<ShoppingList> {
 
   String _item;
 
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
 
 
 
@@ -42,12 +44,8 @@ class _ShoppingList extends State<ShoppingList> {
       return;
     }
 
-    print("flash");
-    print(Provider.of<ShoppingIngredients>(context).itemsToBuy.length);
-    print("ghdghsdfvgsd");
-
     Provider.of<ShoppingIngredients>(context).addItem(
-        _item, Provider.of<ShoppingIngredients>(context).itemsToBuy.length);
+        _item, Provider.of<ShoppingIngredients>(context).itemsToShop.length);
 
     Fluttertoast.showToast(
         msg: "Item Added",
@@ -59,19 +57,6 @@ class _ShoppingList extends State<ShoppingList> {
         fontSize: 16.0);
 
     Navigator.of(context).pop();
-  }
-
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    print("tifac ceore");
-   print(Provider.of<ShoppingIngredients>(context).itemsToBuy.length);
-   print(Provider.of<ShoppingIngredients>(context).itemsToBuy);
-   print("haassasaasdasdasdasdasa");
-
-
-    super.didChangeDependencies();
   }
 
   @override
@@ -133,17 +118,20 @@ class _ShoppingList extends State<ShoppingList> {
         },
       ),
       body: FutureBuilder(
-        future: Provider.of<ShoppingIngredients>(context,listen: false)
-            .fetchAndSet(),
+        future:  _memoizer.runOnce(() async {await Provider.of<ShoppingIngredients>(context)
+            .fetchAndSet(); print(Provider.of<ShoppingIngredients>(context)
+            .itemsToShop
+            .length);print("dash0");}) ,
         builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting ? Center(child: CircularProgressIndicator(),) :
-            Provider.of<ShoppingIngredients>(context).itemsToBuy.length == 0
+            Provider.of<ShoppingIngredients>(context).itemsToShop.length == 0
                 ? Center(
                     child: Text(
                       "-_-  Nothing to buy  -_-",
                       style: TextStyle(fontSize: 30),
                     ),
                   )
-                : ListView.builder(
+                :
+            ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
                         background: Container(
@@ -175,9 +163,9 @@ class _ShoppingList extends State<ShoppingList> {
                         child: Container(
                           margin:
                               EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-                          height: 50,
+                          height: 80,
                           constraints:
-                              BoxConstraints(minHeight: 100, maxHeight: 500),
+                              BoxConstraints(minHeight: 80, maxHeight: 500),
                           width: double.infinity,
                           child: Card(
                             elevation: 7,
@@ -188,11 +176,12 @@ class _ShoppingList extends State<ShoppingList> {
                                   width: 50,
                                   color: Colors.yellow,
                                   child: Center(
-                                    child: Text(
-                                      (index + 1).toString(),
-                                      style: TextStyle(fontSize: 30),
-                                      softWrap: true,
-                                    ),
+                                    child: Container(width: 10,height: 10,color: Colors.black,),
+//                                    child: Text(
+//                                      (index + 1).toString(),
+//                                      style: TextStyle(fontSize: 30),
+//                                      softWrap: true,
+//                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -201,7 +190,7 @@ class _ShoppingList extends State<ShoppingList> {
                                 Container(
                                   child: Text(
                                     Provider.of<ShoppingIngredients>(context)
-                                        .itemsToBuy[index], //use wrap here
+                                        .itemsToShop[index].description, //use wrap here
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -212,7 +201,7 @@ class _ShoppingList extends State<ShoppingList> {
                       );
                     },
                     itemCount: Provider.of<ShoppingIngredients>(context)
-                        .itemsToBuy
+                        .itemsToShop
                         .length,
                   ),
       ),

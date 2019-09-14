@@ -31,20 +31,20 @@ class TheDrawer extends StatelessWidget {
             ),
             alignment: Alignment.bottomRight,
           ),
-          ListTile(
-            trailing: Icon(Icons.all_inclusive),
-            title: Text(
-              "Recipes",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => EveryRecipe(),
-                ),
-              );
-            },
-          ),
+//          ListTile(
+//            trailing: Icon(Icons.all_inclusive),
+//            title: Text(
+//              "Recipes",
+//              style: TextStyle(fontWeight: FontWeight.bold),
+//            ),
+//            onTap: () {
+//              Navigator.of(context).push(
+//                MaterialPageRoute(
+//                  builder: (context) => EveryRecipe(),
+//                ),
+//              );
+//            },
+//          ),
           ListTile(
               trailing: Icon(Icons.timelapse),
               title: Text(

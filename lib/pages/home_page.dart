@@ -134,7 +134,7 @@ class _HomePage extends State<HomePage> {
                                 size: 40,
                               ),
                               onPressed: () {
-                                Provider.of<Recipe>(context).favoriteIt(
+                                Provider.of<Recipe>(context).favoriteIt(context,
                                     Provider.of<Recipe>(context)
                                         .item[index]
                                         .title,

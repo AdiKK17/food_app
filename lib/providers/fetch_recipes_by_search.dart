@@ -18,6 +18,8 @@ class SearchedRecipes with ChangeNotifier {
 
   Future<void> fetchSearchedRecipes(String query) async {
 
+    _searchedItems.clear();
+
     print("gdfgfgfgfsgfgfggdfgdfg....dash");
 
     final url =
