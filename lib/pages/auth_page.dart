@@ -24,6 +24,8 @@
     final Map<String, dynamic> _formData = {
       "email": null,
       "password": null,
+      "username":null,
+      "name":null,
     };
 
     DecorationImage _buildBackGroundImage() {
@@ -79,6 +81,37 @@
       );
     }
 
+
+    Widget _buildNameTextField() {
+      return TextFormField(
+        decoration: InputDecoration(
+            labelText: 'Name', filled: true, fillColor: Colors.white),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Enter a Name please';
+          }
+        },
+        onSaved: (String value){
+          _formData["name"] = value;
+        },
+      );
+    }
+
+    Widget _buildUserNameTextField() {
+      return TextFormField(
+        decoration: InputDecoration(
+            labelText: 'UserName', filled: true, fillColor: Colors.white),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Enter a UserName please';
+          }
+        },
+        onSaved: (String value) {_formData["username"] = value;},
+      );
+    }
+
+
+
     Widget _buildSubmitButton() {
       return RaisedButton(
           color: Colors.black87,
@@ -124,7 +157,7 @@
               .login(_formData["email"], _formData["password"]);
         } else {
           await Provider.of<Auth>(context, listen: false)
-              .signUp(_formData["email"], _formData["password"]);
+              .signUp(_formData["name"],_formData["username"],_formData["email"], _formData["password"],);
         }
 
   //      Navigator.of(context).pushReplacement(
@@ -188,6 +221,24 @@
                   ),
                   SizedBox(
                     height: 70,
+                  ),
+                  _authMode == AuthMode.SignUp
+                      ? Container(
+                    child: _buildNameTextField(),
+                    width: deviceWidth * 0.85,
+                  )
+                      : Container(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _authMode == AuthMode.SignUp
+                      ? Container(
+                    child: _buildUserNameTextField(),
+                    width: deviceWidth * 0.85,
+                  )
+                      : Container(),
+                  SizedBox(
+                    height: 15,
                   ),
                   Container(
                     child: _buildEmailTextField(),

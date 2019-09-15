@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../pages/all_recipe_page.dart';
 import '../pages/category_page.dart';
 import '../pages/favorite_page.dart';
 import '../pages/shopping_list_page.dart';
 import '../pages/cuisine_page.dart';
 import '../providers/auth.dart';
 import '../main.dart';
-import '../pages/home_page.dart';
+import '../pages/user_interaction/profile_page.dart';
+import '../pages/user_interaction/add_friends_page.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -26,8 +26,10 @@ class TheDrawer extends StatelessWidget {
             color: Colors.cyanAccent,
             margin: EdgeInsets.only(top: 30),
             child: Text(
-              "Welcome",
-              style: TextStyle(fontSize: 40, fontStyle: FontStyle.italic),
+              Provider.of<Auth>(context).userEmail == null
+                  ? "holo"
+                  : Provider.of<Auth>(context).userEmail,
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
             ),
             alignment: Alignment.bottomRight,
           ),
@@ -94,6 +96,36 @@ class TheDrawer extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ShoppingList(),
+                  ),
+                );
+              }),
+          Divider(),
+          ListTile(
+            trailing: Icon(Icons.person_outline),
+            title: Text(
+              "Profile",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            onTap: () {
+              Provider.of<Auth>(context).fetchUserDetails();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+              trailing: Icon(Icons.group_add),
+              title: Text(
+                "Add Friends",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+//                Provider.of<Auth>(context).fetchAllUsersData();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AddFriendsPage(),
                   ),
                 );
               }),
