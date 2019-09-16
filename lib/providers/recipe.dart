@@ -14,8 +14,13 @@ class Recipe with ChangeNotifier {
   Map<String, dynamic> _favorites = {};
   List<dynamic> _favoritesRecipeId = [];
   List<Recipe1> _favoriteRecipes = [];
+  List<Recipe1> _particularUserFavoriteRecipes = [];
 
   //getters
+
+  List<Recipe1> get particularUserFavoriteRecipes{
+    return List.from(_particularUserFavoriteRecipes);
+  }
 
   List<Recipe1> get favoriteRecipes {
     return List.from(_favoriteRecipes);
@@ -170,4 +175,39 @@ class Recipe with ChangeNotifier {
     _favoriteRecipes = temporaryFavorite;
     notifyListeners();
   }
+
+  //testing
+
+
+  Future<void> createParticularUserFavoriteList(BuildContext context,String fireId) async {
+    final url = "https://recipedia-58d9b.firebaseio.com/$fireId/favoriteRecipes.json";
+    final responseData = await http.get(url);
+    final extractedData =
+    json.decode(responseData.body) as Map<String, dynamic>;
+
+
+    if(extractedData == null){
+      return;
+    }
+
+    final List<Recipe1> temporaryFavorite = [];
+    extractedData.forEach(
+          (fireId, recipeData) {
+        temporaryFavorite.add(
+          Recipe1(
+            firebaseId: fireId,
+            title: recipeData["title"],
+            imageUrl: recipeData["imageUrl"],
+            rating: recipeData["rating"],
+            id: recipeData["id"],
+            detailSource: recipeData["detailSource"],
+          ),
+        );
+      },
+    );
+    _particularUserFavoriteRecipes = temporaryFavorite;
+    notifyListeners();
+  }
+
+
 }

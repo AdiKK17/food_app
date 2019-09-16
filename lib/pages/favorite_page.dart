@@ -88,21 +88,6 @@ class _ShowFavorites extends State<ShowFavorites> {
                               );
                             }
                           },
-//                          onTap: () async {
-//                            if (await canLaunch(Provider.of<Recipe>(context)
-//                                .favoriteRecipes[index]
-//                                .detailSource)) {
-//                              await launch(
-//                                Provider.of<Recipe>(context)
-//                                    .favoriteRecipes[index]
-//                                    .detailSource,
-//                                forceSafariVC: true,
-//                                forceWebView: true,
-//                              );
-//                            } else {
-//                              print("could not launch the url");
-//                            }
-//                          },
                           leading: CircleAvatar(
                             radius: 30.0,
                             backgroundImage: NetworkImage(

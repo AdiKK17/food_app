@@ -9,7 +9,7 @@ import '../pages/cuisine_page.dart';
 import '../providers/auth.dart';
 import '../main.dart';
 import '../pages/user_interaction/profile_page.dart';
-import '../pages/user_interaction/add_friends_page.dart';
+import '../pages/user_interaction/friends_page.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -125,7 +125,7 @@ class TheDrawer extends StatelessWidget {
 //                Provider.of<Auth>(context).fetchAllUsersData();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => AddFriendsPage(),
+                    builder: (context) => FriendsPage(),
                   ),
                 );
               }),

@@ -19,6 +19,8 @@ class Auth with ChangeNotifier {
 
   List<String> _userIdList = []; //containes UID from firebase of all users
   List<UserDetails> _usersDataDetails = [];
+  List<UserDetails> _friendsDataList = [];
+  List<String> _userFriendsIds = []; //containes UID of a User's friends
 
   Map<String, dynamic> _userData = {
     "name": null,
@@ -27,6 +29,14 @@ class Auth with ChangeNotifier {
   };
 
   //getters
+
+  List<String> get userFriendsIds{
+    return List.from(_userFriendsIds);
+  }
+
+  List<UserDetails> get friendsDataList{
+    return List.from(_friendsDataList);
+  }
 
   List<UserDetails> get usersDataDetails {
     return List.from(_usersDataDetails);
@@ -57,7 +67,7 @@ class Auth with ChangeNotifier {
     return null;
   }
 
-  //end of getters//
+  //END OF GETTERS//
 
 
 
@@ -70,7 +80,12 @@ class Auth with ChangeNotifier {
     await http.post(
       url,
       body: json.encode(
-        {"name": name, "userName": username, "email": email},
+        {
+          "firebaseId": firebaseId,
+          "name": name,
+          "userName": username,
+          "email": email
+        },
       ),
     );
   }
@@ -95,7 +110,9 @@ class Auth with ChangeNotifier {
     final responseData = json.decode(response.body) as Map<String, dynamic>;
     responseData.forEach(
       (key, value) {
-        _userIdList.add(key);
+        if(key != _userId) {
+          _userIdList.add(key);
+        }
       },
     );
     notifyListeners();
@@ -111,15 +128,17 @@ class Auth with ChangeNotifier {
 
       responseData.forEach((key, value) {
         usersDatasDetails.add(UserDetails(
-            name: value["name"],
-            username: value["userName"],
-            email: value["email"]));
+          name: value["name"],
+          username: value["userName"],
+          email: value["email"],
+          firebaseId: value["firebaseId"],
+        ));
 
         print(key);
         print(value["name"]);
         print(value["userName"]);
         print(value["email"]);
-
+        print(value["firebaseId"]);
       });
     });
     _usersDataDetails = usersDatasDetails;
@@ -128,6 +147,61 @@ class Auth with ChangeNotifier {
 
   //SEGMENT ENDED//
 
+  //adding friends
+
+
+  Future<void> fetchUserFriendsIds() async {
+    final url = "https://recipedia-58d9b.firebaseio.com/$_userId/friends.json";
+    final List<String> temporaryUserFriendsIds = [];
+    final response = await http.get(url);
+    final responseData = json.decode(response.body) as Map<String,dynamic>;
+    responseData.forEach((key,value){
+      temporaryUserFriendsIds.add(value["firebaseId"]);
+    });
+    _userFriendsIds = temporaryUserFriendsIds;
+    print("dosh");
+    print(_userFriendsIds);
+    print("hosh");
+    notifyListeners();
+  }
+
+  Future<void> addFriends(String name, String username,
+      String email, String firebaseId) async {
+//    await fetchUserFriendsIds();
+    final url =
+        "https://recipedia-58d9b.firebaseio.com/$_userId/friends.json";
+    if(!_userFriendsIds.contains(firebaseId)){
+
+      await http.post(
+        url,
+        body: json.encode(
+          {
+            "name": name,
+            "userName": username,
+            "email": email,
+            "firebaseId": firebaseId
+          },
+        ),
+      );
+      getFriends();
+      await fetchUserFriendsIds();
+
+    }
+  }
+
+  Future<void> getFriends() async {
+    final url =  "https://recipedia-58d9b.firebaseio.com/$_userId/friends.json";
+    final List<UserDetails> temporaryFriendsList = [];
+    final response = await http.get(url);
+    final responseData = json.decode(response.body) as Map<String,dynamic>;
+    responseData.forEach((key,value) {
+      temporaryFriendsList.add(UserDetails(name: value["name"], username: value["userName"], email: value["email"], firebaseId: value["firebaseId"],),);
+    });
+    _friendsDataList = temporaryFriendsList;
+    notifyListeners();
+  }
+
+  //ADDING FRIENDS ENDED//
 
   Future<void> signUp(
       String name, String username, String email, String password) async {
@@ -216,6 +290,8 @@ class Auth with ChangeNotifier {
 
       fetchUserDetails();
       fetchAllUsersData();
+      getFriends();
+      fetchUserFriendsIds();
 
       final prefs = await SharedPreferences.getInstance();
       final userAuthData = json.encode(
@@ -255,6 +331,7 @@ class Auth with ChangeNotifier {
     _autoLogout();
     fetchUserDetails();
     fetchAllUsersData();
+    getFriends();
     return true;
   }
 
