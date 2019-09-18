@@ -160,10 +160,6 @@
               .signUp(_formData["name"],_formData["username"],_formData["email"], _formData["password"],);
         }
 
-  //      Navigator.of(context).pushReplacement(
-  //        MaterialPageRoute(builder: (context) => HomePage()),
-  //      );
-
       } on HttpException catch (error) {
         var errorMessage = "authentication Failed!";
         if (error.toString().contains("EMAIL_EXISTS")) {
@@ -180,6 +176,7 @@
         _showErrorDialog(errorMessage);
 
       } catch (error) {
+        print("asdfg111111111222");
         var errorMessage = "Could not authenticate you! Try again later";
         _showErrorDialog(errorMessage);
       }

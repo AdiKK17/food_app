@@ -26,7 +26,7 @@ class _BreakFastPage extends State<BreakFastPage> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<RecipeByCuisine>(context).fetchRecipes("breakfast").then((_) {
+      Provider.of<RecipeByCuisine>(context).fetchRecipes(context,"breakfast").then((_) {
         setState(() {
           _isLoading = false;
         });

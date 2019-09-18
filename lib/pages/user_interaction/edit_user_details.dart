@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import '../../providers/auth.dart';
+
 class EditUserDetailsPage extends StatefulWidget {
 
   @override
@@ -18,6 +22,7 @@ class _EditUserDetailsPage extends State<EditUserDetailsPage>{
 
   Widget _buildNameTextField() {
     return TextFormField(
+      initialValue: Provider.of<Auth>(context).userData["name"],
       decoration: InputDecoration(
         labelText: "Name",
         suffixIcon: Icon(
@@ -32,7 +37,7 @@ class _EditUserDetailsPage extends State<EditUserDetailsPage>{
 
   Widget _buildUserNameTextField() {
     return TextFormField(
-//      initialValue: "hoax",
+      initialValue: Provider.of<Auth>(context).userData["username"],
       decoration: InputDecoration(
         labelText: "UserName",
         suffixIcon: Icon(

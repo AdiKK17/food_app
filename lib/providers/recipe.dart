@@ -30,34 +30,63 @@ class Recipe with ChangeNotifier {
     return List.from(_items);
   }
 
-  Future<void> fetchRecipes() async {
+  //END OF GETTERS//
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("An error Occured!"),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text("Okay"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> fetchRecipes(BuildContext context) async {
 //    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
 
   final int randomPageNo =  int.parse(Random().nextInt(3000).toString());
     final url =
-        "https://www.food2fork.com/api/search?key=f7d92b58ec2e350119d5c25b5c491d04&page=$randomPageNo";
+        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&page=$randomPageNo";
+ try {
 
-    final response = await http.get(url);
-    final responseData = json.decode(response.body);
+  final response = await http.get(url);
+  final responseData = json.decode(response.body);
 
-    final List<Recipe1> recipe = [];
-    for (int i = 0; i < responseData["count"]; i++) {
-      String imageUrl = responseData["recipes"][i]["image_url"];
-      String title = responseData["recipes"][i]["title"];
-      String rating = responseData["recipes"][i]["social_rank"].toString();
-      String id = responseData["recipes"][i]["recipe_id"].toString();
-      String sourceUrl = responseData["recipes"][i]["source_url"];
+  if(responseData["error"] != null){
+    _showErrorDialog(context, "Api calls Limit reached");
+    return;
+  }
 
-      recipe.add(Recipe1(
-          title: title,
-          imageUrl: imageUrl,
-          rating: rating,
-          id: id,
-          detailSource: sourceUrl));
-    }
+  final List<Recipe1> recipe = [];
+  for (int i = 0; i < responseData["count"]; i++) {
+    String imageUrl = responseData["recipes"][i]["image_url"];
+    String title = responseData["recipes"][i]["title"];
+    String rating = responseData["recipes"][i]["social_rank"].toString();
+    String id = responseData["recipes"][i]["recipe_id"].toString();
+    String sourceUrl = responseData["recipes"][i]["source_url"];
 
-    _items = recipe;
-    notifyListeners();
+    recipe.add(Recipe1(
+        title: title,
+        imageUrl: imageUrl,
+        rating: rating,
+        id: id,
+        detailSource: sourceUrl));
+  }
+
+  _items = recipe;
+  notifyListeners();
+   }catch(error){
+   var errorMessage = "Could not fetch Data! Check your internet connection and try again later";
+   print(errorMessage);
+   _showErrorDialog(context,errorMessage);
+     }
   }
 
   Future<void> favoriteIt(BuildContext context ,String title, String imageUrl, String rating,
@@ -187,6 +216,7 @@ class Recipe with ChangeNotifier {
 
 
     if(extractedData == null){
+      _particularUserFavoriteRecipes.clear();
       return;
     }
 

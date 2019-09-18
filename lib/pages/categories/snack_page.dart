@@ -26,7 +26,7 @@ class _SnackPage extends State<SnackPage> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<RecipeByCuisine>(context).fetchRecipes("snacks").then((_) {
+      Provider.of<RecipeByCuisine>(context).fetchRecipes(context,"snacks").then((_) {
         setState(() {
           _isLoading = false;
         });

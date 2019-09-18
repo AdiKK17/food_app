@@ -17,22 +17,31 @@ class TheDrawer extends StatelessWidget {
     // TODO: implement build
     return Drawer(
       elevation: 5,
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 180,
-            width: double.infinity,
-            padding: EdgeInsets.only(right: 30, bottom: 20),
-            color: Colors.cyanAccent,
-            margin: EdgeInsets.only(top: 30),
-            child: Text(
-              Provider.of<Auth>(context).userEmail == null
-                  ? "holo"
-                  : Provider.of<Auth>(context).userEmail,
-              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+      child: Container(
+        color: Colors.black12,
+//        color: Color.fromRGBO(150, 200, 106, 1),
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 210,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/authImage.jpg"),
+                    fit: BoxFit.cover),
+              ),
+              padding: EdgeInsets.only(right: 30, bottom: 20),
+//              color: Colors.cyanAccent,
+              margin: EdgeInsets.only(top: 30),
+              child: Text(
+                Provider.of<Auth>(context).userEmail == null
+                    ? "holo"
+                    : Provider.of<Auth>(context).userEmail,
+                style: TextStyle(fontSize: 23, fontStyle: FontStyle.italic),
+              ),
+              alignment: Alignment.bottomRight,
             ),
-            alignment: Alignment.bottomRight,
-          ),
 //          ListTile(
 //            trailing: Icon(Icons.all_inclusive),
 //            title: Text(
@@ -47,106 +56,107 @@ class TheDrawer extends StatelessWidget {
 //              );
 //            },
 //          ),
-          ListTile(
-              trailing: Icon(Icons.timelapse),
-              title: Text(
-                "Categories",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ShowCategories(),
-                  ),
-                );
-              }),
-          ListTile(
-              trailing: Icon(Icons.category),
-              title: Text(
-                "Cuisines",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CuisinePage(),
-                  ),
-                );
-              }),
-          ListTile(
-              trailing: Icon(Icons.favorite),
-              title: Text(
-                "Favorites",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ShowFavorites(),
-                  ),
-                );
-              }),
-          ListTile(
-              trailing: Icon(Icons.shopping_cart),
-              title: Text(
-                "Shopping List",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ShoppingList(),
-                  ),
-                );
-              }),
-          Divider(),
-          ListTile(
-            trailing: Icon(Icons.person_outline),
-            title: Text(
-              "Profile",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              Provider.of<Auth>(context).fetchUserDetails();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ProfilePage(),
+            ListTile(
+                trailing: Icon(Icons.timelapse),
+                title: Text(
+                  "Categories",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              );
-            },
-          ),
-          ListTile(
-              trailing: Icon(Icons.group_add),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ShowCategories(),
+                    ),
+                  );
+                }),
+            ListTile(
+                trailing: Icon(Icons.category),
+                title: Text(
+                  "Cuisines",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CuisinePage(),
+                    ),
+                  );
+                }),
+            ListTile(
+                trailing: Icon(Icons.favorite),
+                title: Text(
+                  "Favorites",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ShowFavorites(),
+                    ),
+                  );
+                }),
+            ListTile(
+                trailing: Icon(Icons.shopping_cart),
+                title: Text(
+                  "Shopping List",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingList(),
+                    ),
+                  );
+                }),
+            Divider(),
+            ListTile(
+              trailing: Icon(Icons.person_outline),
               title: Text(
-                "Add Friends",
+                "Profile",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               onTap: () {
+                Provider.of<Auth>(context).fetchUserDetails();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+                trailing: Icon(Icons.group_add),
+                title: Text(
+                  "Add Friends",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
 //                Provider.of<Auth>(context).fetchAllUsersData();
-                Navigator.of(context).push(
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FriendsPage(),
+                    ),
+                  );
+                }),
+            Divider(),
+            ListTile(
+              title: Text(
+                "LogOut",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => FriendsPage(),
+                    builder: (context) => MyFoodApp(),
                   ),
                 );
-              }),
-          Divider(),
-          ListTile(
-            title: Text(
-              "LogOut",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => MyFoodApp(),
-                ),
-              );
-              Provider.of<Auth>(context, listen: false).logout();
-            },
-          )
-        ],
+                Provider.of<Auth>(context, listen: false).logout();
+              },
+            )
+          ],
+        ),
       ),
-    );
+    ),);
   }
 }

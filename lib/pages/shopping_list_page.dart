@@ -157,7 +157,7 @@ class _ShoppingList extends State<ShoppingList> {
                         direction: DismissDirection.startToEnd,
                         onDismissed: (direction) {
                           Provider.of<ShoppingIngredients>(context)
-                              .deleteItem(index);
+                              .deleteItem(Provider.of<ShoppingIngredients>(context).itemsToShop[index].id,index);
                         },
                         key: ValueKey(index),
                         child: Container(

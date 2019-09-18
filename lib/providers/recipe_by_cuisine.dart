@@ -15,13 +15,37 @@ class RecipeByCuisine extends ChangeNotifier{
   }
 
 
-  Future<void> fetchRecipes(String title) async {
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("An error Occured!"),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text("Okay"),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  Future<void> fetchRecipes(BuildContext context,String title) async {
 //    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
     final url =
-        "https://www.food2fork.com/api/search?key=8b2a51f6f5884208ad88c8d478813cab&q=$title";
-
+        "https://www.food2fork.com/api/search?key=bfeed9228c7d86923eaf6cee3a8230f0&q=$title";
+//    8b2a51f6f5884208ad88c8d478813cab
+  try {
     final response = await http.get(url);
     final responseData = json.decode(response.body);
+
+    if(responseData["error"] != null){
+      _showErrorDialog(context, "Api calls Limit reached");
+      return;
+    }
+    print(responseData);
 
     final List<Recipe1> recipe = [];
     for (int i = 0; i < responseData["count"]; i++) {
@@ -41,6 +65,11 @@ class RecipeByCuisine extends ChangeNotifier{
 
     _cuisineList = recipe;
     notifyListeners();
+    }
+    catch(error){
+    var errorMessage = "Could not fetch the data! Check your internet connection and try again later";
+    _showErrorDialog(context,errorMessage);
+   }
   }
 
 

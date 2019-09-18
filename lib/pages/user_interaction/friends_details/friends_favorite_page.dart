@@ -69,7 +69,7 @@ class _FriendsFavoritePage extends State<FriendsFavoritePage> {
             : Provider.of<Recipe>(context).particularUserFavoriteRecipes.length == 0
             ? Center(
           child: Text(
-            "You have no favorites",
+            "No favorites found!",
             style: TextStyle(fontSize: 30),
           ),
         )

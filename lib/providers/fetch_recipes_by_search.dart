@@ -16,12 +16,27 @@ class SearchedRecipes with ChangeNotifier {
     return List.from(_searchedItems);
   }
 
-  Future<void> fetchSearchedRecipes(String query) async {
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("An error Occured!"),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text("Okay"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> fetchSearchedRecipes(BuildContext context,String query) async {
 
     _searchedItems.clear();
 
-    print("gdfgfgfgfsgfgfggdfgdfg....dash");
-
+    try{
     final url =
         "https://www.food2fork.com/api/search?key=dc56c1573a8df1aa30d1eadd1d428a63&q=$query";
 
@@ -50,5 +65,10 @@ class SearchedRecipes with ChangeNotifier {
 
     _searchedItems = recipe;
     notifyListeners();
+    }catch(error){
+      var errorMessage = "Could not fetch Data! Try again later";
+      print(errorMessage);
+      _showErrorDialog(context,errorMessage);
+    }
   }
 }

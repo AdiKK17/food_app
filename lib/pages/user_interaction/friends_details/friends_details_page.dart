@@ -45,7 +45,6 @@ class FriendsProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            Divider(),
             Container(
               height: 400,
               child: Column(
@@ -53,12 +52,18 @@ class FriendsProfilePage extends StatelessWidget {
                   Container(
                     height: 100,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          "Name:",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Name:",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
                         ),
                         Text(
                           name,
@@ -68,15 +73,22 @@ class FriendsProfilePage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Divider(color: Colors.black),
                   Container(
                     height: 100,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          "UserName",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Username:",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
                         ),
                         Text(
                           username,
@@ -86,29 +98,36 @@ class FriendsProfilePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Expanded(child:
+                  Divider(
+                    color: Colors.black,
+                  ),
                   Container(
-                      child:
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "E-mail:",
-                                style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                email,
-                                style: TextStyle(
-                                    fontSize: 20, fontStyle: FontStyle.italic),
-                              ),
-                            ],
+                    padding: EdgeInsets.only(top: 20),
+                    height: 100,
+                    child: Row(
+//                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "E-mail:",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
                           ),
-                  )
-
-
-
-
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Flexible(
+                          child: Text(
+                            email,
+                            style: TextStyle(
+                                fontSize: 24, fontStyle: FontStyle.italic),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

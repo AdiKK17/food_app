@@ -32,15 +32,15 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
         _isLoading = true;
       });
 
-      _memoizer.runOnce(() async {
+//      _memoizer.runOnce(() async {
         Provider.of<RecipeByCuisine>(context)
-            .fetchRecipes(widget.title)
+            .fetchRecipes(context,widget.title)
             .then((_) {
           setState(() {
             _isLoading = false;
           });
         });
-      });
+//      });
 
 //     Provider.of<RecipeByCuisine>(context).fetchRecipes(widget.title).then((_) {
 //        setState(() {

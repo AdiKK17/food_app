@@ -271,7 +271,7 @@ class Auth with ChangeNotifier {
       final responseData = json.decode(response.body);
 
       if (responseData['error'] != null) {
-        throw HttpException(responseData["error"]["message"]);
+        throw HttpException(responseData["error"]["message"]);                    //tap
       }
 
       _userEmail = responseData["email"];
@@ -332,6 +332,7 @@ class Auth with ChangeNotifier {
     fetchUserDetails();
     fetchAllUsersData();
     getFriends();
+    fetchUserFriendsIds();
     return true;
   }
 

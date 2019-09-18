@@ -33,7 +33,7 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     _memoizer.runOnce(() async {
-      await Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(query);
+      await Provider.of<SearchedRecipes>(context).fetchSearchedRecipes(context,query);
     });
 
     return Provider.of<SearchedRecipes>(context).searchedItems.length == 0
