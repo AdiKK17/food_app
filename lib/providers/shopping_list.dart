@@ -12,22 +12,17 @@ class ShoppingIngredients with ChangeNotifier{
   }
 
 
-  void addItem(String item,int index) async {
-    await fetchAndSet();
-//    if(_itemsToBuy.length == 0){
-//      nextIndex = 0;
-//    }
+  Future<void> addItem(String item,int index) async {
     final nextIndex = _itemsToBuy.length == 0 ? 0 : _itemsToBuy[_itemsToBuy.length-1].id+1;
     _itemsToBuy.add(ShoppingListItem(id: nextIndex, description: item));
     DBHelper.insert("things_to_buy", {"id" : nextIndex , "item" : item});
-//    notifyListeners();
    await fetchAndSet();
   }
 
   Future<void> fetchAndSet() async {
     final dataList = await DBHelper.getData("things_to_buy");
-    print(dataList);
-    print("hayabusa");
+//    print(dataList);
+//    print("hayabusa");
 //    _itemsToBuy = dataList.map((item) => item["item"].toString()).toList();
     _itemsToBuy = dataList.map((item) => ShoppingListItem(id: item["id"], description: item["item"])).toList();
     if(_itemsToBuy.length == 0){
@@ -38,14 +33,10 @@ class ShoppingIngredients with ChangeNotifier{
   }
 
 
-  void deleteItem(int id, int index) async {
-    print(id);
-    print(index);
-    print("ninja");
+  Future<void> deleteItem(int id, int index) async {
     _itemsToBuy.removeAt(index);
   await DBHelper.delete("things_to_buy", id);
-  fetchAndSet();
-
+  await fetchAndSet();
   }
 
 

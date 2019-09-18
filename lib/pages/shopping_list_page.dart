@@ -159,7 +159,7 @@ class _ShoppingList extends State<ShoppingList> {
                           Provider.of<ShoppingIngredients>(context)
                               .deleteItem(Provider.of<ShoppingIngredients>(context).itemsToShop[index].id,index);
                         },
-                        key: ValueKey(index),
+                        key: ValueKey(Provider.of<ShoppingIngredients>(context).itemsToShop[index].id),
                         child: Container(
                           margin:
                               EdgeInsets.symmetric(horizontal: 7, vertical: 5),
