@@ -17,6 +17,7 @@ class Auth with ChangeNotifier {
 
   String _userEmail;
 
+  List<String> _userNotifications = [];
   List<String> _userIdList = []; //containes UID from firebase of all users
   List<UserDetails> _usersDataDetails = [];
   List<UserDetails> _friendsDataList = [];
@@ -29,6 +30,10 @@ class Auth with ChangeNotifier {
   };
 
   //getters
+
+  List<String> get userNotifications{
+    return List.from(_userNotifications);
+  }
 
   List<String> get userFriendsIds{
     return List.from(_userFriendsIds);
@@ -167,6 +172,7 @@ class Auth with ChangeNotifier {
 
   Future<void> addFriends(String name, String username,
       String email, String firebaseId) async {
+    sendFollowingNotification(firebaseId);
 //    await fetchUserFriendsIds();
     final url =
         "https://recipedia-58d9b.firebaseio.com/$_userId/friends.json";
@@ -202,6 +208,32 @@ class Auth with ChangeNotifier {
   }
 
   //ADDING FRIENDS ENDED//
+
+  //sending notifications
+
+  Future<void> sendFollowingNotification(String addedFriendFirebaseId) async {
+    final url =
+        "https://recipedia-58d9b.firebaseio.com/$addedFriendFirebaseId/notifications.json";
+    await http.post(url,body: json.encode({"name" : _userData["name"],},),);
+  }
+
+
+  Future<void> fetchNotifications() async {
+    final url = "https://recipedia-58d9b.firebaseio.com/$_userId/notifications.json";
+
+    final List<String> temporaryNotificationList = [];
+
+    final response = await http.get(url);
+    final responseData = json.decode(response.body) as Map<String,dynamic>;
+
+    responseData.forEach((key,value) {
+      temporaryNotificationList.add(value["name"]);
+    });
+    _userNotifications = temporaryNotificationList;
+    notifyListeners();
+  }
+
+  //SENDING NOTIFICATION ENDED//
 
   Future<void> signUp(
       String name, String username, String email, String password) async {
@@ -241,6 +273,7 @@ class Auth with ChangeNotifier {
 
       fetchUserDetails();
       fetchAllUsersData();
+      fetchNotifications();
 
       final prefs = await SharedPreferences.getInstance();
       final userAuthData = json.encode(
@@ -292,6 +325,7 @@ class Auth with ChangeNotifier {
       fetchAllUsersData();
       getFriends();
       fetchUserFriendsIds();
+      fetchNotifications();
 
       final prefs = await SharedPreferences.getInstance();
       final userAuthData = json.encode(
@@ -333,6 +367,7 @@ class Auth with ChangeNotifier {
     fetchAllUsersData();
     getFriends();
     fetchUserFriendsIds();
+    fetchNotifications();
     return true;
   }
 

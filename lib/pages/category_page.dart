@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 import './categories/breakfast_page.dart';
-import './categories/lunch_page.dart';
-import './categories/snack_page.dart';
-import './categories/dinner_page.dart';
 
 class ShowCategories extends StatelessWidget {
   @override
@@ -14,13 +11,14 @@ class ShowCategories extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Categories"),
+          backgroundColor: Colors.lightGreen,
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
                 child: Text("BreakFast"),
               ),
               Tab(
-                child: Text("Lunch"),
+                child: Text("Brunch"),
               ),
               Tab(
                 child: Text("Snacks"),
@@ -31,7 +29,7 @@ class ShowCategories extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(children: [BreakFastPage(),LunchPage(),SnackPage(),DinnerPage()]),
+        body: TabBarView(children: [BreakFastPage("breakfast"),BreakFastPage("brunch"),BreakFastPage("snacks"),BreakFastPage("dinner")]),
       ),
     );
   }

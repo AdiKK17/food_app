@@ -10,6 +10,7 @@ import '../providers/auth.dart';
 import '../main.dart';
 import '../pages/user_interaction/profile_page.dart';
 import '../pages/user_interaction/friends_page.dart';
+import '../pages/user_interaction/notifications_page.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -138,11 +139,25 @@ class TheDrawer extends StatelessWidget {
                     ),
                   );
                 }),
+            ListTile(
+                trailing: Icon(Icons.notifications),
+                title: Text(
+                  "Notifications",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+//                Provider.of<Auth>(context).fetchAllUsersData();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => NotificationsPage(),
+                    ),
+                  );
+                }),
             Divider(),
             ListTile(
               title: Text(
-                "LogOut",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                "Logout",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
               ),
               onTap: () {
                 Navigator.of(context).pop();

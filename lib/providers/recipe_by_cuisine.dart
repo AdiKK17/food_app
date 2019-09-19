@@ -35,7 +35,7 @@ class RecipeByCuisine extends ChangeNotifier{
   Future<void> fetchRecipes(BuildContext context,String title) async {
 //    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
     final url =
-        "https://www.food2fork.com/api/search?key=bfeed9228c7d86923eaf6cee3a8230f0&q=$title";
+        "https://www.food2fork.com/api/search?key=f7d92b58ec2e350119d5c25b5c491d04&q=$title";
 //    8b2a51f6f5884208ad88c8d478813cab
   try {
     final response = await http.get(url);

@@ -43,7 +43,7 @@
               !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                   .hasMatch(value)) {
             return 'Please enter a valid email';
-          }
+          } else return null;
         },
         onSaved: (String value) {
           _formData['email'] = value;
@@ -59,8 +59,8 @@
         controller: _passwordTextController,
         validator: (String value) {
           if (value.isEmpty || value.length < 6) {
-            return 'Password invalid';
-          }
+            return 'Password should atleast contain 6 characters';
+          } return null;
         },
         onSaved: (String value) {
           _formData['password'] = value;
@@ -76,7 +76,7 @@
         validator: (String value) {
           if (_passwordTextController.text != value) {
             return 'Passwords do not match.';
-          }
+          } else return null;
         },
       );
     }
@@ -89,7 +89,7 @@
         validator: (String value) {
           if (value.isEmpty) {
             return 'Enter a Name please';
-          }
+          } else return null;
         },
         onSaved: (String value){
           _formData["name"] = value;
@@ -104,7 +104,7 @@
         validator: (String value) {
           if (value.isEmpty) {
             return 'Enter a UserName please';
-          }
+          } else return null;
         },
         onSaved: (String value) {_formData["username"] = value;},
       );
@@ -280,8 +280,8 @@
                       });
                     },
                     child: Text(_authMode == AuthMode.Login
-                        ? "Not a user?  SignUp first"
-                        : "Login Instead"),
+                        ? "Not a user?  SignUp"
+                        : "Login"),
                   ),
                 ],
               ),
