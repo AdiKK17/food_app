@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import '../pages/cuisines/cuisine_recipes_page.dart';
 
 class CuisineItem extends StatelessWidget {
-
-//  final List<Widget> cuisinePages = [ChineseCuisinePage()];
-
   final String title;
-  final String id;
   final String imageUrl;
 
-  CuisineItem(this.id, this.title, this.imageUrl);
+  CuisineItem(this.title, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {

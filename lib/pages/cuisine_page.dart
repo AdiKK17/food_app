@@ -15,7 +15,7 @@ class CuisinePage extends StatelessWidget {
       ),
       body: Container(color: Colors.teal,child: GridView.builder(
         itemCount: DUMMY_CATEGORIES.length,
-        itemBuilder: (context, index) => CuisineItem(DUMMY_CATEGORIES[index].id,
+        itemBuilder: (context, index) => CuisineItem(
             DUMMY_CATEGORIES[index].title,DUMMY_CATEGORIES[index].imageUrl),
         padding: EdgeInsets.all(2.0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

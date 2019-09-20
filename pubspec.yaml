@@ -58,7 +58,7 @@ flutter:
      - assets/indian.jpg
      - assets/chinese.jpg
      - assets/vegetarian.jpg
-     - assets/nonveg.jpg
+     - assets/meat.jpg
      - assets/dessert.jpg
      - assets/mediterrainian.jpg
      - assets/french.jpg
