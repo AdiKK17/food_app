@@ -53,7 +53,7 @@ class Recipe with ChangeNotifier {
 
   final int randomPageNo =  int.parse(Random().nextInt(3000).toString());
     final url =
-        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&page=$randomPageNo";
+        "https://www.food2fork.com/api/search?key=83199ffb2f88427105f2c940218f5b70&page=$randomPageNo";
  try {
 
   final response = await http.get(url);
