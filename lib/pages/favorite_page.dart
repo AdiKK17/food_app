@@ -70,44 +70,48 @@ class _ShowFavorites extends State<ShowFavorites> {
                 : ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        margin: EdgeInsets.all(10),
-                        color: Colors.black12,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.all(20),
-                          onTap: () async {
-                            if (await canLaunch(Provider.of<Recipe>(context)
-                                .favoriteRecipes[index]
-                                .detailSource)) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => WbviewScreen(
-                                      Provider.of<Recipe>(context)
-                                          .favoriteRecipes[index]
-                                          .detailSource),
-                                ),
-                              );
-                            }
-                          },
-                          leading: CircleAvatar(
-                            radius: 30.0,
-                            backgroundImage: NetworkImage(
-                                Provider.of<Recipe>(context)
-                                    .favoriteRecipes[index]
-                                    .imageUrl),
+                        color: Color.fromRGBO(10, 33, 15, 0.7),
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+//                          color: Colors.black12,
+                        color: Colors.white30,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.all(20),
+                            onTap: () async {
+                              if (await canLaunch(Provider.of<Recipe>(context)
+                                  .favoriteRecipes[index]
+                                  .detailSource)) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => WbviewScreen(
+                                        Provider.of<Recipe>(context)
+                                            .favoriteRecipes[index]
+                                            .detailSource),
+                                  ),
+                                );
+                              }
+                            },
+                            leading: CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage: NetworkImage(
+                                  Provider.of<Recipe>(context)
+                                      .favoriteRecipes[index]
+                                      .imageUrl),
+                            ),
+                            title: Text(
+                              Provider.of<Recipe>(context)
+                                  .favoriteRecipes[index]
+                                  .title,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                                "Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
+                            trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () => Provider.of<Recipe>(context)
+                                    .deFavoriteIt(context, index)),
                           ),
-                          title: Text(
-                            Provider.of<Recipe>(context)
-                                .favoriteRecipes[index]
-                                .title,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                              "Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
-                          trailing: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => Provider.of<Recipe>(context)
-                                  .deFavoriteIt(context,index)),
                         ),
                       );
                     },

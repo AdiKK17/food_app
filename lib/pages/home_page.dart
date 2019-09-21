@@ -137,9 +137,9 @@ class _HomePage extends State<HomePage> {
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.all(20),
-                                  width: 170,
-                                  height: 120,
+                                  margin: EdgeInsets.all(10),
+                                  width: 190,
+                                  height: 140,
                                   child: Card(
                                     color: Colors.deepOrange,
                                     shape: RoundedRectangleBorder(
@@ -167,7 +167,7 @@ class _HomePage extends State<HomePage> {
                                     child: Column(
                                       children: <Widget>[
                                         SizedBox(
-                                          height: 50,
+                                          height: Provider.of<Recipe>(context).item[index].title.length >= 70 ? 10 : 50,
                                         ),
                                         Text(
                                           Provider.of<Recipe>(context)
@@ -198,6 +198,10 @@ class _HomePage extends State<HomePage> {
                                         SizedBox(
                                           height: 3,
                                         ),
+//                                        Text(
+//                                          "3/5",
+//                                          style: TextStyle(fontSize: 18),
+//                                        ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,

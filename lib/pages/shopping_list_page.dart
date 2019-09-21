@@ -65,10 +65,10 @@ class _ShoppingList extends State<ShoppingList> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Things to buy"),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Color.fromRGBO(20, 89, 29, 1),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: Color.fromRGBO(225, 226, 137, 1),
         child: Icon(Icons.add),
         onPressed: () {
           return showDialog(
@@ -169,12 +169,14 @@ class _ShoppingList extends State<ShoppingList> {
                           width: double.infinity,
                           child: Card(
                             elevation: 7,
-                            color: Colors.cyan,
+                            color: Color.fromRGBO(153, 170, 56, 1),
+//                          color: Colors.cyan,
                             child: Row(
                               children: <Widget>[
                                 Container(
                                   width: 50,
-                                  color: Colors.yellow,
+                                  color: Color.fromRGBO(153, 170, 56, 1),
+//                                  color: Colors.yellow,
                                   child: Center(
                                     child: Container(width: 10,height: 10,color: Colors.black,),
 //                                    child: Text(

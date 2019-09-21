@@ -9,21 +9,30 @@ class CuisinePage extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cuisines"),
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          "Cuisines",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        backgroundColor: Color.fromRGBO(20,89 , 29, 1),
       ),
-      body: Container(color: Colors.teal,child: GridView.builder(
-        itemCount: DUMMY_CATEGORIES.length,
-        itemBuilder: (context, index) => CuisineItem(
-            DUMMY_CATEGORIES[index].title,DUMMY_CATEGORIES[index].imageUrl),
-        padding: EdgeInsets.all(2.0),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.6,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 12),
+      body: Container(
+        color: Colors.black,
+        child: GridView.builder(
+          itemCount: DUMMY_CATEGORIES.length,
+          itemBuilder: (context, index) => CuisineItem(
+              DUMMY_CATEGORIES[index].title, DUMMY_CATEGORIES[index].imageUrl),
+          padding: EdgeInsets.all(2.0),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.6,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 11),
+        ),
       ),
-    ),);
+    );
   }
 }

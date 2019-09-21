@@ -53,22 +53,6 @@ class _BreakFastPage extends State<BreakFastPage> {
             itemBuilder: (BuildContext context, int index) {
               return Column(
                 children: <Widget>[
-//                  InkWell(
-//                    onTap: () async {
-//                      if (await canLaunch(Provider.of<RecipeByCuisine>(context)
-//                          .cuisineList[index]
-//                          .detailSource)) {
-//                        Navigator.of(context).push(
-//                          MaterialPageRoute(
-//                            builder: (context) => WbviewScreen(
-//                                Provider.of<RecipeByCuisine>(context)
-//                                    .cuisineList[index]
-//                                    .detailSource),
-//                          ),
-//                        );
-//                      }
-//                    },
-//                    child:
                   Container(
                     color: Colors.lightGreen,
                     height: 430,
@@ -243,41 +227,6 @@ class _BreakFastPage extends State<BreakFastPage> {
                       ],
                     ),
                   ),
-//                  ),
-//              Container(
-//                width: double.infinity,
-//                height: 60,
-//                child: Center(
-//                  child: IconButton(
-//                    icon: Icon(
-//                      Icons.favorite,
-//                      color: Colors.black,
-//                      size: 40,
-//                    ),
-//                    onPressed: () {
-//                      Provider.of<Recipe>(context).favoriteIt(context,
-//                          Provider.of<RecipeByCuisine>(context).cuisineList[index].title,
-//                          Provider.of<RecipeByCuisine>(context)
-//                              .cuisineList[index]
-//                              .imageUrl,
-//                          Provider.of<RecipeByCuisine>(context).cuisineList[index].rating,
-//                          Provider.of<RecipeByCuisine>(context).cuisineList[index].id,
-//                          Provider.of<RecipeByCuisine>(context)
-//                              .cuisineList[index]
-//                              .detailSource);
-//                      Scaffold.of(context).hideCurrentSnackBar();
-//                      Scaffold.of(context).showSnackBar(
-//                        SnackBar(
-//                          content: Text("Recipe added to favorites"),
-//                          duration: Duration(seconds: 2),
-//                        ),
-//                      );
-//                    },
-//                  ),
-//                ),
-//                color: Colors.lightGreen,
-//                margin: EdgeInsets.only(bottom: 10),
-//              )
                 ],
               );
             },
