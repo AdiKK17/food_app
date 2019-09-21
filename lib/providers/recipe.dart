@@ -53,7 +53,7 @@ class Recipe with ChangeNotifier {
 
   final int randomPageNo =  int.parse(Random().nextInt(3000).toString());
     final url =
-        "https://www.food2fork.com/api/search?key=02303a150e2e3c9f23e70a43dd6ef574&page=$randomPageNo";
+        "https://www.food2fork.com/api/search?key=8b2a51f6f5884208ad88c8d478813cab&page=$randomPageNo";
  try {
 
   final response = await http.get(url);
@@ -143,37 +143,6 @@ class Recipe with ChangeNotifier {
     await http.delete(anotherUrl);
     notifyListeners();
   }
-
-//  Future<void> createFavoriteList() async {
-//    final List<Recipe1> temporaryFavorite = [];
-//
-//    for (var i = 0; i < _favoritesRecipeId.length; i++) {
-//      final url =
-//          "https://www.food2fork.com/api/get?key=8e2b691aa3b937b208975c6f081b0792&rId=${_favoritesRecipeId[i]}";
-//      print(url);
-//      final response = await http.get(url);
-//      final extractedData = json.decode(response.body);
-//
-//      print(extractedData);
-//      print("hello");
-//
-//      String imageUrl = extractedData["recipe"]["image_url"];
-//      String title = extractedData["recipe"]["title"];
-//      String rating = extractedData["recipe"]["social_rank"].toString();
-//      String id = extractedData["recipe"]["recipe_id"].toString();
-//      String sourceUrl = extractedData["recipe"]["source_url"];
-//
-//      temporaryFavorite.add(Recipe1(
-//          title: title,
-//          imageUrl: imageUrl,
-//          rating: rating,
-//          id: id,
-//          detailSource: sourceUrl));
-//    }
-//    _favoriteRecipes = temporaryFavorite;
-//    print(_favoriteRecipes[0]);
-//    notifyListeners();
-//  }
 
   Future<void> createFavoriteList(BuildContext context) async {
     final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes.json";

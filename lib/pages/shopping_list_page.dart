@@ -21,8 +21,6 @@ class _ShoppingList extends State<ShoppingList> {
 
   final AsyncMemoizer _memoizer = AsyncMemoizer();
 
-
-
   Widget buildIngredientsTextFields() {
     return TextFormField(
       autofocus: true,
@@ -118,20 +116,24 @@ class _ShoppingList extends State<ShoppingList> {
         },
       ),
       body: FutureBuilder(
-        future:  _memoizer.runOnce(() async {await Provider.of<ShoppingIngredients>(context)
-            .fetchAndSet(); print(Provider.of<ShoppingIngredients>(context)
-            .itemsToShop
-            .length);print("dash0");}) ,
-        builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting ? Center(child: CircularProgressIndicator(),) :
-            Provider.of<ShoppingIngredients>(context).itemsToShop.length == 0
+        future: _memoizer.runOnce(() async {
+          await Provider.of<ShoppingIngredients>(context).fetchAndSet();
+          print(Provider.of<ShoppingIngredients>(context).itemsToShop.length);
+          print("dash0");
+        }),
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Provider.of<ShoppingIngredients>(context).itemsToShop.length == 0
                 ? Center(
                     child: Text(
                       "-_-  Nothing to buy  -_-",
                       style: TextStyle(fontSize: 30),
                     ),
                   )
-                :
-            ListView.builder(
+                : ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
                         background: Container(
@@ -156,46 +158,50 @@ class _ShoppingList extends State<ShoppingList> {
                         ),
                         direction: DismissDirection.startToEnd,
                         onDismissed: (direction) {
-                          Provider.of<ShoppingIngredients>(context)
-                              .deleteItem(Provider.of<ShoppingIngredients>(context).itemsToShop[index].id,index);
+                          Provider.of<ShoppingIngredients>(context).deleteItem(
+                              Provider.of<ShoppingIngredients>(context)
+                                  .itemsToShop[index]
+                                  .id,
+                              index);
                         },
-                        key: ValueKey(Provider.of<ShoppingIngredients>(context).itemsToShop[index].id),
+                        key: ValueKey(Provider.of<ShoppingIngredients>(context)
+                            .itemsToShop[index]
+                            .id),
                         child: Container(
                           margin:
                               EdgeInsets.symmetric(horizontal: 7, vertical: 5),
                           height: 80,
-                          constraints:
-                              BoxConstraints(minHeight: 80, maxHeight: 500),
+//                          constraints:
+//                              BoxConstraints(minHeight: 80, maxHeight: 500),
                           width: double.infinity,
                           child: Card(
                             elevation: 7,
                             color: Color.fromRGBO(153, 170, 56, 1),
-//                          color: Colors.cyan,
                             child: Row(
                               children: <Widget>[
                                 Container(
                                   width: 50,
                                   color: Color.fromRGBO(153, 170, 56, 1),
-//                                  color: Colors.yellow,
                                   child: Center(
-                                    child: Container(width: 10,height: 10,color: Colors.black,),
-//                                    child: Text(
-//                                      (index + 1).toString(),
-//                                      style: TextStyle(fontSize: 30),
-//                                      softWrap: true,
-//                                    ),
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Container(
+                               Flexible(child: Container(
                                   child: Text(
                                     Provider.of<ShoppingIngredients>(context)
-                                        .itemsToShop[index].description, //use wrap here
+                                        .itemsToShop[index]
+                                        .description, //use wrap here
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
+                               ),
                               ],
                             ),
                           ),

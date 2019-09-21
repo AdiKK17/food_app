@@ -18,7 +18,7 @@ class Auth with ChangeNotifier {
   String _userEmail;
 
   List<String> _userNotifications = [];
-  List<String> _userIdList = []; //containes UID from firebase of all users
+//  List<String> _userIdList = []; //containes UID from firebase of all users
   List<UserDetails> _usersDataDetails = [];
   List<UserDetails> _friendsDataList = [];
   List<String> _userFriendsIds = []; //containes UID of a User's friends
@@ -82,7 +82,7 @@ class Auth with ChangeNotifier {
       String name, String username, String email, String firebaseId) async {
     final url =
         "https://recipedia-58d9b.firebaseio.com/userData/$firebaseId.json";
-    await http.post(
+    await http.put(
       url,
       body: json.encode(
         {
@@ -101,51 +101,33 @@ class Auth with ChangeNotifier {
     final response = await http.get(url);
     final responseData = json.decode(response.body) as Map<String, dynamic>;
 
-    responseData.forEach((fireId, userData) {
-      _userData["name"] = userData["name"];
-      _userData["username"] = userData["userName"];
-      _userData["email"] = userData["email"];
-    });
+    _userData["name"] = responseData["name"];
+    _userData["username"] = responseData["userName"];
+    _userData["email"] = responseData["email"];
     notifyListeners();
   }
 
-  Future<void> fetchAllUserDataIds() async {
-    final url = "https://recipedia-58d9b.firebaseio.com/userData.json";
-    final response = await http.get(url);
-    final responseData = json.decode(response.body) as Map<String, dynamic>;
-    responseData.forEach(
-      (key, value) {
-        if(key != _userId) {
-          _userIdList.add(key);
-        }
-      },
-    );
+  Future<void> updateUserDetails(String name,String username) async {
+    final url = "https://recipedia-58d9b.firebaseio.com/userData/$_userId.json";
+      await http.get(url);
+    await http.patch(url,body: json.encode({"name" : name, "userName" : username},),);          //can be modified!
+    await fetchUserDetails();
     notifyListeners();
   }
+
 
   Future<void> fetchAllUsersData() async {
-    await fetchAllUserDataIds();
+    final url = "https://recipedia-58d9b.firebaseio.com/userData.json";
+    final response = await http.get(url);
+    final responseData = json.decode(response.body) as Map<String,dynamic>;
     final List<UserDetails> usersDatasDetails = [];
-    _userIdList.forEach((id) async {
-      final url = "https://recipedia-58d9b.firebaseio.com/userData/$id.json";
-      final response = await http.get(url);
-      final responseData = json.decode(response.body) as Map<String, dynamic>;
 
-      responseData.forEach((key, value) {
-        usersDatasDetails.add(UserDetails(
-          name: value["name"],
-          username: value["userName"],
-          email: value["email"],
-          firebaseId: value["firebaseId"],
-        ));
-
-        print(key);
-        print(value["name"]);
-        print(value["userName"]);
-        print(value["email"]);
-        print(value["firebaseId"]);
-      });
+    responseData.forEach((key,value){
+      if(key != _userId){
+        usersDatasDetails.add(UserDetails(name: value["name"], username: value["userName"], email: value["email"], firebaseId: value["firebaseId"],),);
+      }
     });
+
     _usersDataDetails = usersDatasDetails;
     notifyListeners();
   }
@@ -164,20 +146,15 @@ class Auth with ChangeNotifier {
       temporaryUserFriendsIds.add(value["firebaseId"]);
     });
     _userFriendsIds = temporaryUserFriendsIds;
-    print("dosh");
-    print(_userFriendsIds);
-    print("hosh");
     notifyListeners();
   }
 
   Future<void> addFriends(String name, String username,
       String email, String firebaseId) async {
     sendFollowingNotification(firebaseId);
-//    await fetchUserFriendsIds();
     final url =
         "https://recipedia-58d9b.firebaseio.com/$_userId/friends.json";
     if(!_userFriendsIds.contains(firebaseId)){
-
       await http.post(
         url,
         body: json.encode(
@@ -191,7 +168,6 @@ class Auth with ChangeNotifier {
       );
       getFriends();
       await fetchUserFriendsIds();
-
     }
   }
 
@@ -220,15 +196,12 @@ class Auth with ChangeNotifier {
 
   Future<void> fetchNotifications() async {
     final url = "https://recipedia-58d9b.firebaseio.com/$_userId/notifications.json";
-
     final List<String> temporaryNotificationList = [];
-
     final response = await http.get(url);
     final responseData = json.decode(response.body) as Map<String,dynamic>;
-
     responseData.forEach((key,value) {
       temporaryNotificationList.add(value["name"]);
-    });
+    },);
     _userNotifications = temporaryNotificationList;
     notifyListeners();
   }
@@ -253,10 +226,8 @@ class Auth with ChangeNotifier {
         throw HttpException(responseData["error"]["message"]);
       }
 
-      //      print(responseData["idToken"]);
-      //      print(responseData["localId"]);                                                   //local id is the id given by the firebase to a user
-
       _userEmail = responseData["email"];
+
       setUpUserData(name, username, email, responseData["localId"]);
 
       _token = responseData["idToken"];

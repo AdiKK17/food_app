@@ -65,6 +65,8 @@ class _EditUserDetailsPage extends State<EditUserDetailsPage>{
 
     Navigator.pop(context);
 
+    Provider.of<Auth>(context).updateUserDetails(_name, _username);
+
 //    Fluttertoast.showToast(
 //        msg: "Expense Added",
 //        toastLength: Toast.LENGTH_SHORT,
@@ -100,7 +102,7 @@ class _EditUserDetailsPage extends State<EditUserDetailsPage>{
                   _buildUserNameTextField(),
                   SizedBox(height: 50,),
                   Container(width: 100,child:
-                  RaisedButton(child: Text("Submit"),onPressed: () => _submitForm,),),
+                  RaisedButton(child: Text("Submit"),onPressed: () => _submitForm()),),
                 ],
               ),
             ),
