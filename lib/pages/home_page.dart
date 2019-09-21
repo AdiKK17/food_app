@@ -104,40 +104,10 @@ class _HomePage extends State<HomePage> {
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
+                    color: Color.fromRGBO(237, 42, 95, 1),
                     child: Column(
                       children: <Widget>[
                         InkWell(
-                          onLongPress: () async {
-                            if (await canLaunch(
-                                "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}")) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => WbviewScreen(
-                                      "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}"),
-                                ),
-                              );
-                            }
-                          },
-                          onDoubleTap: () {
-                            Provider.of<Recipe>(context).favoriteIt(
-                                context,
-                                Provider.of<Recipe>(context).item[index].title,
-                                Provider.of<Recipe>(context)
-                                    .item[index]
-                                    .imageUrl,
-                                Provider.of<Recipe>(context).item[index].rating,
-                                Provider.of<Recipe>(context).item[index].id,
-                                Provider.of<Recipe>(context)
-                                    .item[index]
-                                    .detailSource);
-                            Scaffold.of(context).hideCurrentSnackBar();
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("recipe added to favorites"),
-                                duration: Duration(seconds: 2),
-                              ),
-                            );
-                          },
                           onTap: () async {
                             if (await canLaunch(Provider.of<Recipe>(context)
                                 .item[index]
@@ -155,25 +125,35 @@ class _HomePage extends State<HomePage> {
                           child: Container(
                             margin:
                                 EdgeInsets.only(left: 3, bottom: 5, right: 3),
-//                            color: Colors.black38,
-                            height: 230,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.white, Colors.grey],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                            ),
+                            height: 240,
                             width: double.infinity,
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  decoration:
-                                      BoxDecoration(shape: BoxShape.circle),
                                   margin: EdgeInsets.all(20),
-                                  width: 150,
-                                  height: 150,
-//                                  color: Colors.deepOrange,
+                                  width: 170,
+                                  height: 120,
                                   child: Card(
-                                    elevation: 10,
-                                    child: Image.network(
-                                      Provider.of<Recipe>(context)
-                                          .item[index]
-                                          .imageUrl,
-                                      fit: BoxFit.cover,
+                                    color: Colors.deepOrange,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                    elevation: 15,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: Image.network(
+                                        Provider.of<Recipe>(context)
+                                            .item[index]
+                                            .imageUrl,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -193,7 +173,9 @@ class _HomePage extends State<HomePage> {
                                           Provider.of<Recipe>(context)
                                               .item[index]
                                               .title,
-                                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         SizedBox(
                                           height: 7,
@@ -217,17 +199,68 @@ class _HomePage extends State<HomePage> {
                                           height: 3,
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: <Widget>[
-                                            Text("3/5",style: TextStyle(fontSize: 18),),
+                                            Text(
+                                              "3/5",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
                                             IconButton(
-                                                icon:
-                                                    Icon(Icons.favorite_border),
-                                                onPressed: () {}),
+                                              icon: Icon(Icons.favorite_border),
+                                              onPressed: () {
+                                                Provider.of<Recipe>(context)
+                                                    .favoriteIt(
+                                                        context,
+                                                        Provider.of<Recipe>(
+                                                                context)
+                                                            .item[index]
+                                                            .title,
+                                                        Provider.of<Recipe>(
+                                                                context)
+                                                            .item[index]
+                                                            .imageUrl,
+                                                        Provider.of<Recipe>(
+                                                                context)
+                                                            .item[index]
+                                                            .rating,
+                                                        Provider.of<Recipe>(
+                                                                context)
+                                                            .item[index]
+                                                            .id,
+                                                        Provider.of<Recipe>(
+                                                                context)
+                                                            .item[index]
+                                                            .detailSource);
+                                                Scaffold.of(context)
+                                                    .hideCurrentSnackBar();
+                                                Scaffold.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        "recipe added to favorites"),
+                                                    duration:
+                                                        Duration(seconds: 2),
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                             IconButton(
-                                                icon: Icon(
-                                                    Icons.play_circle_outline),
-                                                onPressed: () {})
+                                              icon: Icon(
+                                                  Icons.play_circle_outline),
+                                              onPressed: () async {
+                                                if (await canLaunch(
+                                                    "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}")) {
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WbviewScreen(
+                                                              "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}"),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            ),
                                           ],
                                         )
                                       ],
@@ -238,7 +271,11 @@ class _HomePage extends State<HomePage> {
                             ),
                           ),
                         ),
-                      Divider(color: Colors.black,height: 10,indent: 10,endIndent: 10,)
+                        Divider(
+                          color: Colors.grey,
+                          indent: 15,
+                          endIndent: 15,
+                        )
                       ],
                     ),
                   );
