@@ -95,6 +95,7 @@ class _EditUserDetailsPage extends State<EditUserDetailsPage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text("Edit Details"),
       ),
       body: _isLoading
@@ -125,6 +126,7 @@ class _EditUserDetailsPage extends State<EditUserDetailsPage> {
                         Container(
                           width: 100,
                           child: RaisedButton(
+                              color: Colors.green,
                               child: Text("Submit"),
                               onPressed: () => _submitForm()),
                         ),

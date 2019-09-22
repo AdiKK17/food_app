@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-//import 'package:provider/provider.dart';
-
-import '../edit_user_details.dart';
-//import '../../../providers/auth.dart';
-
 class FriendsProfilePage extends StatelessWidget {
   final String name;
   final String username;
@@ -20,7 +15,6 @@ class FriendsProfilePage extends StatelessWidget {
         title: Text("${name.toUpperCase()}'s Profile"),
       ),
       body: SingleChildScrollView(
-//        scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[
             Container(

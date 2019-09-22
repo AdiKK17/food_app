@@ -49,7 +49,7 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.green,
         title: Text(
           widget.title,
           style: TextStyle(
@@ -165,7 +165,7 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
                                   .cuisineList[index]
                                   .title,
                               style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 20,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold),
                             ),

@@ -21,7 +21,7 @@ class _FriendsPage extends State<FriendsPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(backgroundColor: Colors.teal,
           title: Text("Add Friends"),
           bottom: TabBar(
             tabs: <Widget>[

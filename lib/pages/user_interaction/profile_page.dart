@@ -11,6 +11,7 @@ class ProfilePage extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text("Profile"),
         actions: <Widget>[
           IconButton(
@@ -29,6 +30,7 @@ class ProfilePage extends StatelessWidget {
           children: <Widget>[
             Container(
               height: 200,
+              color: Colors.lightGreen,
 //              color: Color.fromRGBO(r, g, b, opacity),
               child: Center(
                 child: Container(
@@ -49,7 +51,6 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            Divider(),
             Container(
               height: 400,
               child: Column(
@@ -57,53 +58,64 @@ class ProfilePage extends StatelessWidget {
                   Container(
                     height: 100,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Name:",
+                          "Name:  ",
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          Provider.of<Auth>(context).userData["name"] == null ? "Loading.." : Provider.of<Auth>(context).userData["name"],
+                          Provider.of<Auth>(context).userData["name"] == null
+                              ? "Loading.."
+                              : Provider.of<Auth>(context).userData["name"],
                           style: TextStyle(
                               fontSize: 25, fontStyle: FontStyle.italic),
                         ),
                       ],
                     ),
                   ),
+                  Divider(indent: 20,endIndent: 20,color: Colors.cyan,),
                   Container(
                     height: 100,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "UserName",
+                          "Username:  ",
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          Provider.of<Auth>(context).userData["username"] == null ? "Loading.." : Provider.of<Auth>(context).userData["username"],
+                          Provider.of<Auth>(context).userData["username"] ==
+                                  null
+                              ? "Loading.."
+                              : Provider.of<Auth>(context).userData["username"],
                           style: TextStyle(
                               fontSize: 25, fontStyle: FontStyle.italic),
                         ),
                       ],
                     ),
                   ),
+                  Divider(indent: 20,endIndent: 20,color: Colors.cyan,),
                   Container(
                     height: 100,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "E-mail:",
+                          "E-mail:  ",
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          Provider.of<Auth>(context).userData["email"] == null ? "Loading.." : Provider.of<Auth>(context).userData["email"],
-                          style: TextStyle(
-                              fontSize: 25, fontStyle: FontStyle.italic),
+                        Flexible(
+                          child: Text(
+                            Provider.of<Auth>(context).userData["email"] == null
+                                ? "Loading.."
+                                : Provider.of<Auth>(context).userData["email"],
+                            style: TextStyle(
+                                fontSize: 25, fontStyle: FontStyle.italic),
+                          ),
                         ),
                       ],
                     ),

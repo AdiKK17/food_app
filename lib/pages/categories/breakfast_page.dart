@@ -151,7 +151,7 @@ class _BreakFastPage extends State<BreakFastPage> {
                                 .cuisineList[index]
                                 .title,
                             style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.bold),
                           ),

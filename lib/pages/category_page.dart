@@ -11,7 +11,7 @@ class ShowCategories extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Categories"),
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Colors.green,
           bottom: TabBar(
             tabs: <Widget>[
               Tab(

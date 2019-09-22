@@ -18,6 +18,7 @@ class _NotificationsPage extends State<NotificationsPage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text("Notifications"),
         centerTitle: true,
       ),
@@ -33,11 +34,21 @@ class _NotificationsPage extends State<NotificationsPage> {
                 leading: CircleAvatar(
                   radius: 30,
                   child: Icon(Icons.accessibility),
-                  backgroundColor: Colors.cyan,
+                  backgroundColor: Colors.green,
                 ),
-                title: Text(
-                  "${Provider.of<Auth>(context).userNotifications[index]} started following you!",
-                  style: TextStyle(fontSize: 20),
+                title:
+                    RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: [
+                      TextSpan(
+                        text:
+                            "${Provider.of<Auth>(context).userNotifications[index]} ",
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 19),
+                      ),
+                      TextSpan(text: "started following you!",style: TextStyle(fontSize: 20))
+                    ],
+                  ),
                 ),
               ),
               Divider(
