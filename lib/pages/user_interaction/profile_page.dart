@@ -29,7 +29,7 @@ class ProfilePage extends StatelessWidget {
           children: <Widget>[
             Container(
               height: 200,
-              color: Colors.blueGrey,
+//              color: Color.fromRGBO(r, g, b, opacity),
               child: Center(
                 child: Container(
                   height: 120,

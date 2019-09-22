@@ -11,14 +11,12 @@ import './auth.dart';
 
 class Recipe with ChangeNotifier {
   List<Recipe1> _items = [];
-  Map<String, dynamic> _favorites = {};
-  List<dynamic> _favoritesRecipeId = [];
   List<Recipe1> _favoriteRecipes = [];
   List<Recipe1> _particularUserFavoriteRecipes = [];
 
   //getters
 
-  List<Recipe1> get particularUserFavoriteRecipes{
+  List<Recipe1> get particularUserFavoriteRecipes {
     return List.from(_particularUserFavoriteRecipes);
   }
 
@@ -49,118 +47,107 @@ class Recipe with ChangeNotifier {
   }
 
   Future<void> fetchRecipes(BuildContext context) async {
-//    const url = "https://www.food2fork.com/api/get?key=f7d92b58ec2e350119d5c25b5c491d04&rId=34370";
-
-  final int randomPageNo =  int.parse(Random().nextInt(3000).toString());
+    final int randomPageNo = int.parse(Random().nextInt(3000).toString());
     final url =
         "https://www.food2fork.com/api/search?key=8b2a51f6f5884208ad88c8d478813cab&page=$randomPageNo";
- try {
+    try {
+      final response = await http.get(url);
+      final responseData = json.decode(response.body);
 
-  final response = await http.get(url);
-  final responseData = json.decode(response.body);
+      if (responseData["error"] != null) {
+        _showErrorDialog(context, "Api calls Limit reached");
+        return;
+      }
 
-  if(responseData["error"] != null){
-    _showErrorDialog(context, "Api calls Limit reached");
-    return;
-  }
+      final List<Recipe1> recipe = [];
+      for (int i = 0; i < responseData["count"]; i++) {
+        String imageUrl = responseData["recipes"][i]["image_url"];
+        String title = responseData["recipes"][i]["title"];
+        String rating = responseData["recipes"][i]["social_rank"].toString();
+        String id = responseData["recipes"][i]["recipe_id"].toString();
+        String sourceUrl = responseData["recipes"][i]["source_url"];
 
-  final List<Recipe1> recipe = [];
-  for (int i = 0; i < responseData["count"]; i++) {
-    String imageUrl = responseData["recipes"][i]["image_url"];
-    String title = responseData["recipes"][i]["title"];
-    String rating = responseData["recipes"][i]["social_rank"].toString();
-    String id = responseData["recipes"][i]["recipe_id"].toString();
-    String sourceUrl = responseData["recipes"][i]["source_url"];
+        recipe.add(Recipe1(
+            title: title,
+            imageUrl: imageUrl,
+            rating: rating,
+            id: id,
+            detailSource: sourceUrl));
+      }
 
-    recipe.add(Recipe1(
-        title: title,
-        imageUrl: imageUrl,
-        rating: rating,
-        id: id,
-        detailSource: sourceUrl));
-  }
-
-  _items = recipe;
-  notifyListeners();
-   }catch(error){
-   var errorMessage = "Could not fetch Data! Check your internet connection and try again later";
-   print(errorMessage);
-   _showErrorDialog(context,errorMessage);
-     }
-  }
-
-  Future<void> favoriteIt(BuildContext context ,String title, String imageUrl, String rating,
-      String recipeId, String sourceUrl) async {
-    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favorites.json";
-    final anotherUrl =
-        "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes.json";
-
-//    await fetchFavorites();
-
-    if (!_favorites.containsValue(recipeId)) {
-      await http.post(url, body: json.encode((recipeId)));
-      await http.post(
-        anotherUrl,
-        body: json.encode(
-          {
-            "title": title,
-            "imageUrl": imageUrl,
-            "rating": rating,
-            "id": recipeId,
-            "detailSource": sourceUrl
-          },
-        ),
-      );
-      await fetchFavorites(context);
+      _items = recipe;
+      notifyListeners();
+    } catch (error) {
+      var errorMessage =
+          "Could not fetch Data! Check your internet connection and try again later";
+      print(errorMessage);
+      _showErrorDialog(context, errorMessage);
     }
   }
 
-  Future<void> fetchFavorites(BuildContext context) async {
-    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favorites.json";
-    final response = await http.get(url);
-    final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+  //Favoriting Feature
 
-    _favorites.addAll(extractedData);
-    _favoritesRecipeId = _favorites.keys.toList();
+  void toggleFavoriteStatus(int index) {
+    final currentFavoriteStatus = _items[index].isFavorite;
+    final newFavoriteStatus = !currentFavoriteStatus;
 
+    final Recipe1 updatedRecipe = Recipe1(
+        title: _items[index].title,
+        imageUrl: _items[index].imageUrl,
+        rating: _items[index].rating,
+        id: _items[index].id,
+        detailSource: _items[index].detailSource,
+        isFavorite: newFavoriteStatus);
+
+    _items[index] = updatedRecipe;
     notifyListeners();
+  }
+
+  Future<void> favoriteIt(BuildContext context, String title, String imageUrl,
+      String rating, String recipeId, String sourceUrl) async {
+    final anotherUrl =
+        "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes/$recipeId.json";
+
+    await http.put(
+      anotherUrl,
+      body: json.encode(
+        {
+          "title": title,
+          "imageUrl": imageUrl,
+          "rating": rating,
+          "id": recipeId,
+          "detailSource": sourceUrl
+        },
+      ),
+    );
   }
 
   Future<void> deFavoriteIt(BuildContext context, int index) async {
-    await fetchFavorites(context);
-
-    final favoriteRecipesId = _favoriteRecipes[index].firebaseId;
-    final favoritesId = _favoritesRecipeId[index];
-
-    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes/$favoriteRecipesId.json";
-    final anotherUrl = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favorites/$favoritesId.json";
-
-
+    final favoriteRecipesId = _favoriteRecipes[index].id;
+    final url =
+        "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes/$favoriteRecipesId.json";
     _favoriteRecipes.removeAt(index);
-    _favoritesRecipeId.removeAt(index);
+    notifyListeners();
 
     await http.delete(url);
-    await http.delete(anotherUrl);
-    notifyListeners();
   }
 
   Future<void> createFavoriteList(BuildContext context) async {
-    final url = "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes.json";
+    final url =
+        "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes.json";
     final responseData = await http.get(url);
     final extractedData =
         json.decode(responseData.body) as Map<String, dynamic>;
 
-
-    if(extractedData == null){
+    if (extractedData == null) {
       return;
     }
 
     final List<Recipe1> temporaryFavorite = [];
     extractedData.forEach(
-      (fireId, recipeData) {
+      (id, recipeData) {
         temporaryFavorite.add(
           Recipe1(
-            firebaseId: fireId,
             title: recipeData["title"],
             imageUrl: recipeData["imageUrl"],
             rating: recipeData["rating"],
@@ -174,27 +161,24 @@ class Recipe with ChangeNotifier {
     notifyListeners();
   }
 
-  //testing
-
-
-  Future<void> createParticularUserFavoriteList(BuildContext context,String fireId) async {
-    final url = "https://recipedia-58d9b.firebaseio.com/$fireId/favoriteRecipes.json";
+  Future<void> createParticularUserFavoriteList(
+      BuildContext context, String fireId) async {
+    final url =
+        "https://recipedia-58d9b.firebaseio.com/$fireId/favoriteRecipes.json";
     final responseData = await http.get(url);
     final extractedData =
-    json.decode(responseData.body) as Map<String, dynamic>;
+        json.decode(responseData.body) as Map<String, dynamic>;
 
-
-    if(extractedData == null){
+    if (extractedData == null) {
       _particularUserFavoriteRecipes.clear();
       return;
     }
 
     final List<Recipe1> temporaryFavorite = [];
     extractedData.forEach(
-          (fireId, recipeData) {
+      (id, recipeData) {
         temporaryFavorite.add(
           Recipe1(
-            firebaseId: fireId,
             title: recipeData["title"],
             imageUrl: recipeData["imageUrl"],
             rating: recipeData["rating"],
@@ -208,5 +192,6 @@ class Recipe with ChangeNotifier {
     notifyListeners();
   }
 
+//FAVORITING FEATURE ENDS//
 
 }

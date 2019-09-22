@@ -167,7 +167,13 @@ class _HomePage extends State<HomePage> {
                                     child: Column(
                                       children: <Widget>[
                                         SizedBox(
-                                          height: Provider.of<Recipe>(context).item[index].title.length >= 70 ? 10 : 50,
+                                          height: Provider.of<Recipe>(context)
+                                                      .item[index]
+                                                      .title
+                                                      .length >=
+                                                  70
+                                              ? 10
+                                              : 50,
                                         ),
                                         Text(
                                           Provider.of<Recipe>(context)
@@ -211,42 +217,56 @@ class _HomePage extends State<HomePage> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             IconButton(
-                                              icon: Icon(Icons.favorite_border),
+                                              icon: Icon(
+                                                  Provider.of<Recipe>(context)
+                                                          .item[index]
+                                                          .isFavorite
+                                                      ? Icons.favorite
+                                                      : Icons.favorite_border),
                                               onPressed: () {
                                                 Provider.of<Recipe>(context)
-                                                    .favoriteIt(
-                                                        context,
-                                                        Provider.of<Recipe>(
-                                                                context)
-                                                            .item[index]
-                                                            .title,
-                                                        Provider.of<Recipe>(
-                                                                context)
-                                                            .item[index]
-                                                            .imageUrl,
-                                                        Provider.of<Recipe>(
-                                                                context)
-                                                            .item[index]
-                                                            .rating,
-                                                        Provider.of<Recipe>(
-                                                                context)
-                                                            .item[index]
-                                                            .id,
-                                                        Provider.of<Recipe>(
-                                                                context)
-                                                            .item[index]
-                                                            .detailSource);
-                                                Scaffold.of(context)
-                                                    .hideCurrentSnackBar();
-                                                Scaffold.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "recipe added to favorites"),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
+                                                    .toggleFavoriteStatus(
+                                                        index);
+                                                if (Provider.of<Recipe>(
+                                                        context)
+                                                    .item[index]
+                                                    .isFavorite) {
+                                                  Provider.of<Recipe>(
+                                                          context)
+                                                      .favoriteIt(
+                                                          context,
+                                                          Provider.of<Recipe>(
+                                                                  context)
+                                                              .item[index]
+                                                              .title,
+                                                          Provider.of<Recipe>(
+                                                                  context)
+                                                              .item[index]
+                                                              .imageUrl,
+                                                          Provider.of<Recipe>(
+                                                                  context)
+                                                              .item[index]
+                                                              .rating,
+                                                          Provider.of<Recipe>(
+                                                                  context)
+                                                              .item[index]
+                                                              .id,
+                                                          Provider.of<Recipe>(
+                                                                  context)
+                                                              .item[index]
+                                                              .detailSource);
+                                                  Scaffold.of(context)
+                                                      .hideCurrentSnackBar();
+                                                  Scaffold.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                          "recipe added to favorites"),
+                                                      duration:
+                                                          Duration(seconds: 2),
+                                                    ),
+                                                  );
+                                                }
                                               },
                                             ),
                                             IconButton(
@@ -275,11 +295,11 @@ class _HomePage extends State<HomePage> {
                             ),
                           ),
                         ),
-                        Divider(
-                          color: Colors.grey,
-                          indent: 15,
-                          endIndent: 15,
-                        )
+//                        Divider(
+//                          color: Colors.grey,
+//                          indent: 15,
+//                          endIndent: 15,
+//                        )
                       ],
                     ),
                   );

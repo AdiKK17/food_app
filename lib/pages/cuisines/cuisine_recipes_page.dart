@@ -99,31 +99,40 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
                                     }
                                   },
                                   onDoubleTap: () {
-                                    Provider.of<Recipe>(context).favoriteIt(
-                                        context,
-                                        Provider.of<RecipeByCuisine>(context)
-                                            .cuisineList[index]
-                                            .title,
-                                        Provider.of<RecipeByCuisine>(context)
-                                            .cuisineList[index]
-                                            .imageUrl,
-                                        Provider.of<RecipeByCuisine>(context)
-                                            .cuisineList[index]
-                                            .rating,
-                                        Provider.of<RecipeByCuisine>(context)
-                                            .cuisineList[index]
-                                            .id,
-                                        Provider.of<RecipeByCuisine>(context)
-                                            .cuisineList[index]
-                                            .detailSource);
-                                    Scaffold.of(context).hideCurrentSnackBar();
-                                    Scaffold.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                        Text("Recipe added to favorites"),
-                                        duration: Duration(seconds: 2),
-                                      ),
-                                    );
+                                    Provider.of<RecipeByCuisine>(context).toggleCuisineFavoriteStatus(index);
+
+                                    if(Provider.of<RecipeByCuisine>(context).cuisineList[index].isFavorite) {
+                                      Provider.of<Recipe>(context).favoriteIt(
+                                          context,
+                                          Provider
+                                              .of<RecipeByCuisine>(context)
+                                              .cuisineList[index]
+                                              .title,
+                                          Provider
+                                              .of<RecipeByCuisine>(context)
+                                              .cuisineList[index]
+                                              .imageUrl,
+                                          Provider
+                                              .of<RecipeByCuisine>(context)
+                                              .cuisineList[index]
+                                              .rating,
+                                          Provider
+                                              .of<RecipeByCuisine>(context)
+                                              .cuisineList[index]
+                                              .id,
+                                          Provider
+                                              .of<RecipeByCuisine>(context)
+                                              .cuisineList[index]
+                                              .detailSource);
+                                      Scaffold.of(context).hideCurrentSnackBar();
+                                      Scaffold.of(context).showSnackBar(
+                                        SnackBar(
+                                          content:
+                                          Text("Recipe added to favorites"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    }
                                   },
                                   onLongPress: () async {
                                     if (await canLaunch(
@@ -169,34 +178,44 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
                             children: <Widget>[
                               IconButton(
                                 icon: Icon(
-                                  Icons.favorite,
+                                  Provider.of<RecipeByCuisine>(context).cuisineList[index].isFavorite ? Icons.favorite : Icons.favorite_border,
                                   size: 35,
                                 ),
                                 onPressed: () {
-                                  Provider.of<Recipe>(context).favoriteIt(
-                                      context,
-                                      Provider.of<RecipeByCuisine>(context)
-                                          .cuisineList[index]
-                                          .title,
-                                      Provider.of<RecipeByCuisine>(context)
-                                          .cuisineList[index]
-                                          .imageUrl,
-                                      Provider.of<RecipeByCuisine>(context)
-                                          .cuisineList[index]
-                                          .rating,
-                                      Provider.of<RecipeByCuisine>(context)
-                                          .cuisineList[index]
-                                          .id,
-                                      Provider.of<RecipeByCuisine>(context)
-                                          .cuisineList[index]
-                                          .detailSource);
-                                  Scaffold.of(context).hideCurrentSnackBar();
-                                  Scaffold.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Recipe added to favorites"),
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  );
+                                  Provider.of<RecipeByCuisine>(context).toggleCuisineFavoriteStatus(index);
+
+                                  if(Provider.of<RecipeByCuisine>(context).cuisineList[index].isFavorite) {
+                                    Provider.of<Recipe>(context).favoriteIt(
+                                        context,
+                                        Provider
+                                            .of<RecipeByCuisine>(context)
+                                            .cuisineList[index]
+                                            .title,
+                                        Provider
+                                            .of<RecipeByCuisine>(context)
+                                            .cuisineList[index]
+                                            .imageUrl,
+                                        Provider
+                                            .of<RecipeByCuisine>(context)
+                                            .cuisineList[index]
+                                            .rating,
+                                        Provider
+                                            .of<RecipeByCuisine>(context)
+                                            .cuisineList[index]
+                                            .id,
+                                        Provider
+                                            .of<RecipeByCuisine>(context)
+                                            .cuisineList[index]
+                                            .detailSource);
+                                    Scaffold.of(context).hideCurrentSnackBar();
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content:
+                                        Text("Recipe added to favorites"),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                  }
                                 },
                               ),
                               SmoothStarRating(
@@ -216,7 +235,7 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
                                   spacing: 0.0),
                               IconButton(
                                 icon: Icon(
-                                  Icons.videocam,
+                                  Provider.of<RecipeByCuisine>(context).cuisineList[index].isFavorite ? Icons.play_circle_filled : Icons.play_circle_outline,
                                   size: 35,
                                   color: Colors.black,
                                 ),

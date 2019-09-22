@@ -70,6 +70,23 @@ class RecipeByCuisine extends ChangeNotifier{
     var errorMessage = "Could not fetch the data! Check your internet connection and try again later";
     _showErrorDialog(context,errorMessage);
    }
+
+  }
+
+  void toggleCuisineFavoriteStatus(int index) {
+    final currentFavoriteStatus = _cuisineList[index].isFavorite;
+    final newFavoriteStatus = !currentFavoriteStatus;
+
+    final Recipe1 updatedRecipe = Recipe1(
+        title: _cuisineList[index].title,
+        imageUrl: _cuisineList[index].imageUrl,
+        rating: _cuisineList[index].rating,
+        id: _cuisineList[index].id,
+        detailSource: _cuisineList[index].detailSource,
+        isFavorite: newFavoriteStatus);
+
+    _cuisineList[index] = updatedRecipe;
+    notifyListeners();
   }
 
 

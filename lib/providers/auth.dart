@@ -101,6 +101,7 @@ class Auth with ChangeNotifier {
     final response = await http.get(url);
     final responseData = json.decode(response.body) as Map<String, dynamic>;
 
+
     _userData["name"] = responseData["name"];
     _userData["username"] = responseData["userName"];
     _userData["email"] = responseData["email"];
@@ -110,7 +111,7 @@ class Auth with ChangeNotifier {
   Future<void> updateUserDetails(String name,String username) async {
     final url = "https://recipedia-58d9b.firebaseio.com/userData/$_userId.json";
       await http.get(url);
-    await http.patch(url,body: json.encode({"name" : name, "userName" : username},),);          //can be modified!
+    await http.patch(url,body: json.encode({"name" : name, "userName" : username},),);
     await fetchUserDetails();
     notifyListeners();
   }
@@ -120,6 +121,9 @@ class Auth with ChangeNotifier {
     final url = "https://recipedia-58d9b.firebaseio.com/userData.json";
     final response = await http.get(url);
     final responseData = json.decode(response.body) as Map<String,dynamic>;
+    if(responseData == null){
+      return;
+    }
     final List<UserDetails> usersDatasDetails = [];
 
     responseData.forEach((key,value){
@@ -142,6 +146,9 @@ class Auth with ChangeNotifier {
     final List<String> temporaryUserFriendsIds = [];
     final response = await http.get(url);
     final responseData = json.decode(response.body) as Map<String,dynamic>;
+    if(responseData == null){
+      return;
+    }
     responseData.forEach((key,value){
       temporaryUserFriendsIds.add(value["firebaseId"]);
     });
@@ -176,6 +183,9 @@ class Auth with ChangeNotifier {
     final List<UserDetails> temporaryFriendsList = [];
     final response = await http.get(url);
     final responseData = json.decode(response.body) as Map<String,dynamic>;
+    if(responseData == null){
+      return;
+    }
     responseData.forEach((key,value) {
       temporaryFriendsList.add(UserDetails(name: value["name"], username: value["userName"], email: value["email"], firebaseId: value["firebaseId"],),);
     });
@@ -199,6 +209,9 @@ class Auth with ChangeNotifier {
     final List<String> temporaryNotificationList = [];
     final response = await http.get(url);
     final responseData = json.decode(response.body) as Map<String,dynamic>;
+    if(responseData == null){
+      return;
+    }
     responseData.forEach((key,value) {
       temporaryNotificationList.add(value["name"]);
     },);
@@ -275,7 +288,7 @@ class Auth with ChangeNotifier {
       final responseData = json.decode(response.body);
 
       if (responseData['error'] != null) {
-        throw HttpException(responseData["error"]["message"]);                    //tap
+        throw HttpException(responseData["error"]["message"]);
       }
 
       _userEmail = responseData["email"];

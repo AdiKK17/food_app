@@ -28,11 +28,15 @@ class _FriendsPage extends State<FriendsPage> {
               Tab(
                 child: Text("Friends"),
               ),
-              Tab(child: Text("Add Friends"),)
+              Tab(
+                child: Text("Add Friends"),
+              )
             ],
           ),
         ),
-        body: TabBarView(children: [AddedFriendsPage(),AddFriendsPage()],),
+        body: TabBarView(
+          children: [AddedFriendsPage(), AddFriendsPage()],
+        ),
       ),
     );
   }
