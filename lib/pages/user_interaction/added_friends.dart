@@ -22,7 +22,7 @@ class _AddedFriendsPage extends State<AddedFriendsPage> {
       onRefresh: () async {
         setState(() {});
       },
-      child: ListView.builder(
+      child: Provider.of<Auth>(context).friendsDataList.length == 0 ? Container(child: Center(child: Text("!-_-No Friends-_-!",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),),) : ListView.builder(
         itemBuilder: (context, index) => Column(
           children: <Widget>[
             ListTile(

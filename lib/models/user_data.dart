@@ -5,7 +5,8 @@ class UserDetails{
   final String username;
   final String email;
   final String firebaseId;
+  final bool isFriend;
 
-  UserDetails({@required this.name,@required this.username,@required this.email,@required this.firebaseId});
+  UserDetails({@required this.name,@required this.username,@required this.email,@required this.firebaseId,this.isFriend = false});
 
 }
