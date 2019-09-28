@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class RecipeByCuisine extends ChangeNotifier{
 
   Future<void> fetchRecipes1(BuildContext context,String title) async {
     final url =
-        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&q=$title";
+        "https://www.food2fork.com/api/search?key=a6ed66e1903973bce080455718e260b3&q=$title";
   try {
     final response = await http.get(url);
     final responseData = json.decode(response.body);
@@ -95,7 +96,7 @@ class RecipeByCuisine extends ChangeNotifier{
 
   Future<void> fetchRecipes2(BuildContext context,String title) async {
     final url =
-        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&q=$title";
+        "https://www.food2fork.com/api/search?key=d8f7fad2f2e5516f85671a5c3914b2ce&q=$title";
     try {
       final response = await http.get(url);
       final responseData = json.decode(response.body);
@@ -134,7 +135,7 @@ class RecipeByCuisine extends ChangeNotifier{
 
   Future<void> fetchRecipes3(BuildContext context,String title) async {
     final url =
-        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&q=$title";
+        "https://www.food2fork.com/api/search?key=a9aa144f16bedd4447d53c239da4265e&q=$title";
     try {
       final response = await http.get(url);
       final responseData = json.decode(response.body);
@@ -174,7 +175,7 @@ class RecipeByCuisine extends ChangeNotifier{
 
   Future<void> fetchRecipes4(BuildContext context,String title) async {
     final url =
-        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&q=$title";
+        "https://www.food2fork.com/api/search?key=e928ed54cbc8139083b74afbb368397d&q=$title";
     try {
       final response = await http.get(url);
       final responseData = json.decode(response.body);
@@ -214,8 +215,11 @@ class RecipeByCuisine extends ChangeNotifier{
 
 
   Future<void> fetchRecipes(BuildContext context,String title) async {
+
+    final int randomPageNo = int.parse(Random().nextInt(5).toString());
+
     final url =
-        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&q=$title";
+        "https://www.food2fork.com/api/search?key=6e932845f4b874be73b217617ab07bfe&q=$title&page=$randomPageNo";
     try {
       final response = await http.get(url);
       final responseData = json.decode(response.body);

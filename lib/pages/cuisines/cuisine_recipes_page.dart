@@ -49,7 +49,7 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightGreen,
         title: Text(
           widget.title,
           style: TextStyle(
@@ -69,7 +69,7 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
                 return Column(
                   children: <Widget>[
                     Container(
-                      color: Colors.lightGreen,
+                      color: Color.fromRGBO(187, 239, 176, 0.8),
                       height: 430,
                       width: double.infinity,
                       child: Column(
@@ -221,15 +221,8 @@ class _CuisineRecipesPage extends State<CuisineRecipesPage> {
                               SmoothStarRating(
                                   allowHalfRating: true,
                                   starCount: 5,
-                                  rating: double.parse(
-                                      Provider.of<RecipeByCuisine>(
-                                          context)
-                                          .cuisineList[index]
-                                          .rating) >=
-                                      80
-                                      ? 5
-                                      : 3.5,
-                                  size: 40.0,
+                                  rating: double.parse(Provider.of<RecipeByCuisine>(context).cuisineList[index].rating)*(5/100),
+                                  size: 35.0,
                                   color: Colors.deepOrangeAccent,
                                   borderColor: Colors.white,
                                   spacing: 0.0),

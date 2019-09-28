@@ -122,6 +122,14 @@ class Recipe with ChangeNotifier {
     );
   }
 
+  Future<void> unFavoriteIt(BuildContext context,String recipeId) async {
+    final url =
+        "https://recipedia-58d9b.firebaseio.com/${Provider.of<Auth>(context).userId}/favoriteRecipes/$recipeId.json";
+    _favoriteRecipes.removeWhere((recipe) => recipe.id == recipeId);
+    notifyListeners();
+    await http.delete(url);
+  }
+
   Future<void> deFavoriteIt(BuildContext context, int index) async {
     final favoriteRecipesId = _favoriteRecipes[index].id;
     final url =

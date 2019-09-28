@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -44,7 +43,7 @@ class _CategoryPage1 extends State<CategoryPage1> {
     super.didChangeDependencies();
   }
 
-  String _appropriateTitleText(String name, int index) {
+  String _appropriateLimitedTitleText(String name, int index) {
     return name.contains("Breakfast")
         ? Provider.of<RecipeByCuisine>(context)
                     .cuisineList1[index]
@@ -84,6 +83,42 @@ class _CategoryPage1 extends State<CategoryPage1> {
                         .title;
   }
 
+  String _appropriateTitleText(String name, int index) {
+    return name.contains("Breakfast")
+        ? Provider.of<RecipeByCuisine>(context).cuisineList1[index].title
+        : name.contains("Brunch")
+            ? Provider.of<RecipeByCuisine>(context).cuisineList2[index].title
+            : name.contains("Snacks")
+                ? Provider.of<RecipeByCuisine>(context)
+                    .cuisineList3[index]
+                    .title
+                : Provider.of<RecipeByCuisine>(context)
+                    .cuisineList4[index]
+                    .title;
+  }
+
+  String _appropriateRating(String name, int index) {
+    return name.contains("Breakfast")
+        ? Provider.of<RecipeByCuisine>(context)
+            .cuisineList1[index]
+            .rating
+            .substring(0, 5)
+        : name.contains("Brunch")
+            ? Provider.of<RecipeByCuisine>(context)
+                .cuisineList2[index]
+                .rating
+                .substring(0, 5)
+            : name.contains("Snacks")
+                ? Provider.of<RecipeByCuisine>(context)
+                    .cuisineList3[index]
+                    .rating
+                    .substring(0, 5)
+                : Provider.of<RecipeByCuisine>(context)
+                    .cuisineList4[index]
+                    .rating
+                    .substring(0, 5);
+  }
+
   String _appropriateSourceUrl(String name, int index) {
     return name.contains("Breakfast")
         ? Provider.of<RecipeByCuisine>(context).cuisineList1[index].detailSource
@@ -100,187 +135,143 @@ class _CategoryPage1 extends State<CategoryPage1> {
                     .detailSource;
   }
 
-
-  void _favoriteRecipe(int index,String name){
-
-    if(name.contains("Breakfast")){
-      if (Provider.of<RecipeByCuisine>(
-          context)
+  void _favoriteRecipe(int index, String name) {
+    if (name.contains("Breakfast")) {
+      if (Provider.of<RecipeByCuisine>(context)
           .cuisineList1[index]
           .isFavorite) {
-        Provider.of<Recipe>(
-            context)
-            .favoriteIt(
+        Provider.of<Recipe>(context).favoriteIt(
             context,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList1[index]
-                .title,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList1[index]
-                .imageUrl,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList1[index]
-                .rating,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList1[index]
-                .id,
-            Provider.of<RecipeByCuisine>(
-                context)
+            Provider.of<RecipeByCuisine>(context).cuisineList1[index].title,
+            Provider.of<RecipeByCuisine>(context).cuisineList1[index].imageUrl,
+            Provider.of<RecipeByCuisine>(context).cuisineList1[index].rating,
+            Provider.of<RecipeByCuisine>(context).cuisineList1[index].id,
+            Provider.of<RecipeByCuisine>(context)
                 .cuisineList1[index]
                 .detailSource);
         Fluttertoast.showToast(
             msg: "Recipe added to Favorites",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
+            gravity: ToastGravity.BOTTOM,
             timeInSecForIos: 1,
             backgroundColor: Colors.lightGreen,
             textColor: Colors.black,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
+      } else {
+        Provider.of<Recipe>(context).unFavoriteIt(context, Provider.of<RecipeByCuisine>(context).cuisineList1[index].id);
+        Fluttertoast.showToast(
+            msg: "Recipe removed from Favorites",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.black,
+            fontSize: 16.0);
       }
     }
 
-    if(name.contains("Brunch")){
-      if (Provider.of<RecipeByCuisine>(
-          context)
+    if (name.contains("Brunch")) {
+      if (Provider.of<RecipeByCuisine>(context)
           .cuisineList2[index]
           .isFavorite) {
-        Provider.of<Recipe>(
-            context)
-            .favoriteIt(
+        Provider.of<Recipe>(context).favoriteIt(
             context,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList2[index]
-                .title,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList2[index]
-                .imageUrl,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList2[index]
-                .rating,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList2[index]
-                .id,
-            Provider.of<RecipeByCuisine>(
-                context)
+            Provider.of<RecipeByCuisine>(context).cuisineList2[index].title,
+            Provider.of<RecipeByCuisine>(context).cuisineList2[index].imageUrl,
+            Provider.of<RecipeByCuisine>(context).cuisineList2[index].rating,
+            Provider.of<RecipeByCuisine>(context).cuisineList2[index].id,
+            Provider.of<RecipeByCuisine>(context)
                 .cuisineList2[index]
                 .detailSource);
         Fluttertoast.showToast(
             msg: "Recipe added to Favorites",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
+            gravity: ToastGravity.BOTTOM,
             timeInSecForIos: 1,
             backgroundColor: Colors.lightGreen,
             textColor: Colors.black,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
+      } else {
+        Provider.of<Recipe>(context).unFavoriteIt(context, Provider.of<RecipeByCuisine>(context).cuisineList2[index].id);
+        Fluttertoast.showToast(
+            msg: "Recipe removed from Favorites",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.black,
+            fontSize: 16.0);
       }
     }
 
-
-    if(name.contains("Snacks")){
-      if (Provider.of<RecipeByCuisine>(
-          context)
+    if (name.contains("Snacks")) {
+      if (Provider.of<RecipeByCuisine>(context)
           .cuisineList3[index]
           .isFavorite) {
-        Provider.of<Recipe>(
-            context)
-            .favoriteIt(
+        Provider.of<Recipe>(context).favoriteIt(
             context,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList3[index]
-                .title,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList3[index]
-                .imageUrl,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList3[index]
-                .rating,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList3[index]
-                .id,
-            Provider.of<RecipeByCuisine>(
-                context)
+            Provider.of<RecipeByCuisine>(context).cuisineList3[index].title,
+            Provider.of<RecipeByCuisine>(context).cuisineList3[index].imageUrl,
+            Provider.of<RecipeByCuisine>(context).cuisineList3[index].rating,
+            Provider.of<RecipeByCuisine>(context).cuisineList3[index].id,
+            Provider.of<RecipeByCuisine>(context)
                 .cuisineList3[index]
                 .detailSource);
         Fluttertoast.showToast(
             msg: "Recipe added to Favorites",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
+            gravity: ToastGravity.BOTTOM,
             timeInSecForIos: 1,
             backgroundColor: Colors.lightGreen,
             textColor: Colors.black,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
+      } else {
+        Provider.of<Recipe>(context).unFavoriteIt(context, Provider.of<RecipeByCuisine>(context).cuisineList3[index].id);
+        Fluttertoast.showToast(
+            msg: "Recipe removed from Favorites",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.black,
+            fontSize: 16.0);
       }
     }
 
-
-    if(name.contains("Dinner")){
-      if (Provider.of<RecipeByCuisine>(
-          context)
+    if (name.contains("Dinner")) {
+      if (Provider.of<RecipeByCuisine>(context)
           .cuisineList4[index]
           .isFavorite) {
-        Provider.of<Recipe>(
-            context)
-            .favoriteIt(
+        Provider.of<Recipe>(context).favoriteIt(
             context,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList4[index]
-                .title,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList4[index]
-                .imageUrl,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList4[index]
-                .rating,
-            Provider.of<RecipeByCuisine>(
-                context)
-                .cuisineList4[index]
-                .id,
-            Provider.of<RecipeByCuisine>(
-                context)
+            Provider.of<RecipeByCuisine>(context).cuisineList4[index].title,
+            Provider.of<RecipeByCuisine>(context).cuisineList4[index].imageUrl,
+            Provider.of<RecipeByCuisine>(context).cuisineList4[index].rating,
+            Provider.of<RecipeByCuisine>(context).cuisineList4[index].id,
+            Provider.of<RecipeByCuisine>(context)
                 .cuisineList4[index]
                 .detailSource);
         Fluttertoast.showToast(
             msg: "Recipe added to Favorites",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
+            gravity: ToastGravity.BOTTOM,
             timeInSecForIos: 1,
             backgroundColor: Colors.lightGreen,
             textColor: Colors.black,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
+      } else {
+        Provider.of<Recipe>(context).unFavoriteIt(context, Provider.of<RecipeByCuisine>(context).cuisineList4[index].id);
+        Fluttertoast.showToast(
+            msg: "Recipe removed from Favorites",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.black,
+            fontSize: 16.0);
       }
     }
-
-//    Fluttertoast.showToast(
-//        msg: "Recipe added to Favorites",
-//        toastLength: Toast.LENGTH_SHORT,
-//        gravity: ToastGravity.CENTER,
-//        timeInSecForIos: 1,
-//        backgroundColor: Colors.lightGreen,
-//        textColor: Colors.black,
-//        fontSize: 16.0
-//    );
-
   }
-
 
   Widget _buildCategoryCards(String name) {
     return Container(
@@ -339,74 +330,210 @@ class _CategoryPage1 extends State<CategoryPage1> {
                               child: IconButton(
                                 iconSize: 25,
                                 icon: Icon(
-                                  name.contains("Breakfast") ?
-                                  Provider.of<RecipeByCuisine>(context)
-                                      .cuisineList1[index]
-                                      .isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border : name.contains("Brunch") ?  Provider.of<RecipeByCuisine>(context)
-                                      .cuisineList2[index]
-                                      .isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border : name.contains("Snacks") ?  Provider.of<RecipeByCuisine>(context)
-                                      .cuisineList3[index]
-                                      .isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border : Provider.of<RecipeByCuisine>(context)
-                                      .cuisineList4[index]
-                                      .isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  color: Colors.tealAccent
-                                  ,
+                                  name.contains("Breakfast")
+                                      ? Provider.of<RecipeByCuisine>(context)
+                                              .cuisineList1[index]
+                                              .isFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border
+                                      : name.contains("Brunch")
+                                          ? Provider.of<RecipeByCuisine>(
+                                                      context)
+                                                  .cuisineList2[index]
+                                                  .isFavorite
+                                              ? Icons.favorite
+                                              : Icons.favorite_border
+                                          : name.contains("Snacks")
+                                              ? Provider.of<RecipeByCuisine>(
+                                                          context)
+                                                      .cuisineList3[index]
+                                                      .isFavorite
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border
+                                              : Provider.of<RecipeByCuisine>(
+                                                          context)
+                                                      .cuisineList4[index]
+                                                      .isFavorite
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                  color: Colors.tealAccent,
                                 ),
-                                onPressed: () { name.contains("Breakfast")
-                                    ? Provider.of<RecipeByCuisine>(context)
-                                        .toggleCuisineFavoriteStatus1(index)
-                                    : name.contains("Brunch")
-                                        ? Provider.of<RecipeByCuisine>(context)
-                                            .toggleCuisineFavoriteStatus2(index)
-                                        : name.contains("Snacks")
-                                            ? Provider.of<RecipeByCuisine>(
-                                                    context)
-                                                .toggleCuisineFavoriteStatus3(
-                                                    index)
-                                            : Provider.of<RecipeByCuisine>(
-                                                    context)
-                                                .toggleCuisineFavoriteStatus4(
-                                                    index);
-                                _favoriteRecipe(index,name);
+                                onPressed: () {
+                                  name.contains("Breakfast")
+                                      ? Provider.of<RecipeByCuisine>(context)
+                                          .toggleCuisineFavoriteStatus1(index)
+                                      : name.contains("Brunch")
+                                          ? Provider.of<RecipeByCuisine>(
+                                                  context)
+                                              .toggleCuisineFavoriteStatus2(
+                                                  index)
+                                          : name.contains("Snacks")
+                                              ? Provider.of<RecipeByCuisine>(
+                                                      context)
+                                                  .toggleCuisineFavoriteStatus3(
+                                                      index)
+                                              : Provider.of<RecipeByCuisine>(
+                                                      context)
+                                                  .toggleCuisineFavoriteStatus4(
+                                                      index);
+                                  _favoriteRecipe(index, name);
                                 },
                               ),
                             ),
                           ],
                         ),
                         InkWell(
-                          onTap: () async {
-                            if (await canLaunch(
-                                Provider.of<RecipeByCuisine>(context)
-                                    .cuisineList1[index]
-                                    .detailSource)) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => WbviewScreen(
-                                  _appropriateSourceUrl(name, index),
-                                ),
-                              ));
-                            }
+                          onTap: () {
+                            return showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      elevation: 10,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(40),
+                                        child: Image.network(
+                                          name.contains("Breakfast")
+                                              ? Provider.of<RecipeByCuisine>(
+                                                      context)
+                                                  .cuisineList1[index]
+                                                  .imageUrl
+                                              : name.contains("Brunch")
+                                                  ? Provider.of<
+                                                              RecipeByCuisine>(
+                                                          context)
+                                                      .cuisineList2[index]
+                                                      .imageUrl
+                                                  : name.contains("Snacks")
+                                                      ? Provider.of<
+                                                                  RecipeByCuisine>(
+                                                              context)
+                                                          .cuisineList3[index]
+                                                          .imageUrl
+                                                      : Provider.of<
+                                                                  RecipeByCuisine>(
+                                                              context)
+                                                          .cuisineList4[index]
+                                                          .imageUrl,
+                                          width: 200,
+                                          height: 300,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    content: Container(
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 3,
+                                            ),
+                                            Text(
+                                              _appropriateTitleText(
+                                                  name, index),
+                                              style: TextStyle(
+                                                  fontFamily: "Nexa",
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(
+                                              "Rating - ${_appropriateRating(name, index)}",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                  fontFamily: "Montserrat"),
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            SmoothStarRating(
+                                                allowHalfRating: true,
+                                                starCount: 5,
+                                                rating: double.parse(
+                                                    _appropriateRating(name, index)) *
+                                                    (5 / 100),
+                                                size: 25.0,
+                                                color: Colors.greenAccent,
+                                                borderColor: Colors.greenAccent,
+                                                spacing: 0.0),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WbviewScreen(
+                                                          _appropriateSourceUrl(
+                                                              name, index),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    "Recipe",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.lightGreen,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 23,
+                                                        fontFamily: "Oswald"),
+                                                  ),
+                                                ),
+                                                FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WbviewScreen(
+                                                                "https://www.youtube.com/results?search_query=${_appropriateTitleText(name, index)}"),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    "Video",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.lightGreen,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 23,
+                                                        fontFamily: "Oswald"),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
                           },
                           child: ListTile(
                             title: Text(
-                              _appropriateTitleText(name, index),
+                              _appropriateLimitedTitleText(name, index),
                               style: TextStyle(
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: "Nexa"),
                             ),
-                            subtitle:  SmoothStarRating(
+                            subtitle: SmoothStarRating(
                                 allowHalfRating: true,
                                 starCount: 5,
                                 rating: double.parse(
-                                    (1 + Random().nextInt(6 - 1)).toString()),
+                                        _appropriateRating(name, index)) *
+                                    (5 / 100),
                                 size: 18.0,
                                 color: Colors.greenAccent,
                                 borderColor: Colors.greenAccent,

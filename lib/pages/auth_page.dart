@@ -30,7 +30,7 @@
 
     DecorationImage _buildBackGroundImage() {
       return DecorationImage(
-          fit: BoxFit.cover, image: AssetImage("assets/authImage.jpg"));
+          fit: BoxFit.cover, image: AssetImage("assets/newAuthImage1.jpg"),);
     }
 
     Widget _buildEmailTextField() {
@@ -206,20 +206,20 @@
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.only(top: 220),
+                    padding: EdgeInsets.only(top: 110),
                     alignment: Alignment.center,
-//                      child: ClipRRect(borderRadius: BorderRadius.circular(100),child: Image.asset("assets/Logo.svg",height: 170,width: 200,),)
-                    child: Text(
-                      "ReciPedia",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 50),
-                    )
+                      child: ClipRRect(borderRadius: BorderRadius.circular(20),child: Image.asset("assets/Logo1.png",height: 220,width: 220,),)
+//                    child: Text(
+//                      "FoodPedia",
+//                      style: TextStyle(
+//                          fontWeight: FontWeight.bold,
+//                          fontStyle: FontStyle.italic,
+//                          fontSize: 50),
+//                    )
                     ,
                   ),
                   SizedBox(
-                    height: 60,
+                    height: 30,
                   ),
                   _authMode == AuthMode.SignUp
                       ? Container(
@@ -283,7 +283,7 @@
                     },
                     child: Text(_authMode == AuthMode.Login
                         ? "Not a user?  SignUp"
-                        : "Login"),
+                        : "Login",style: TextStyle(color: Colors.black87),),
                   ),
                 ],
               ),

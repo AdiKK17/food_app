@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
-import '../../providers/auth.dart';
 import './add_friends.dart';
 import './added_friends.dart';
 

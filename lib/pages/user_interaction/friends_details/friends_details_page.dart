@@ -11,7 +11,9 @@ class FriendsProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+//      backgroundColor: Colors.lightGreen,
       appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
         title: Text("${name.toUpperCase()}'s Profile"),
       ),
       body: SingleChildScrollView(
@@ -19,19 +21,16 @@ class FriendsProfilePage extends StatelessWidget {
           children: <Widget>[
             Container(
               height: 200,
-              color: Colors.blueGrey,
+              color: Color.fromRGBO(187, 239, 176, 0.4),
               child: Center(
                 child: Container(
-                  height: 120,
-                  width: 120,
                   color: Colors.white,
                   child: Center(
                     child: Container(
-                      height: 110,
-                      width: 110,
-                      color: Colors.red,
+                      height: 130,
+                      width: 130,
                       child: Image.asset(
-                        "assets/default.png",
+                        "assets/student.png",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -62,7 +61,7 @@ class FriendsProfilePage extends StatelessWidget {
                         Text(
                           name,
                           style: TextStyle(
-                              fontSize: 25, fontStyle: FontStyle.italic),
+                              fontSize: 25, fontFamily: "Nexa"),
                         ),
                       ],
                     ),
@@ -87,7 +86,7 @@ class FriendsProfilePage extends StatelessWidget {
                         Text(
                           username,
                           style: TextStyle(
-                              fontSize: 25, fontStyle: FontStyle.italic),
+                              fontSize: 25, fontFamily: "Nexa"),
                         ),
                       ],
                     ),
@@ -117,7 +116,7 @@ class FriendsProfilePage extends StatelessWidget {
                           child: Text(
                             email,
                             style: TextStyle(
-                                fontSize: 24, fontStyle: FontStyle.italic),
+                                fontSize: 24, fontFamily: "Nexa"),
                           ),
                         ),
                       ],

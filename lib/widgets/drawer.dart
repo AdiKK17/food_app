@@ -20,7 +20,6 @@ class TheDrawer extends StatelessWidget {
       elevation: 5,
       child: Container(
         color: Colors.black12,
-//        color: Color.fromRGBO(150, 200, 106, 1),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -33,10 +32,9 @@ class TheDrawer extends StatelessWidget {
                     fit: BoxFit.cover),
               ),
               padding: EdgeInsets.only(right: 30, bottom: 20),
-//              color: Colors.cyanAccent,
               margin: EdgeInsets.only(top: 30),
               child: Text(
-                Provider.of<Auth>(context).userData["name"],
+                Provider.of<Auth>(context).userData["name"] == null ? "" : Provider.of<Auth>(context).userData["name"],
                 style: TextStyle(fontSize: 30, fontFamily: "Oswald"),
               ),
               alignment: Alignment.bottomRight,

@@ -63,6 +63,7 @@ class _HomePage extends State<HomePage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -83,15 +84,11 @@ class _HomePage extends State<HomePage> {
             },
           ),
         ],
-//        backgroundColor: Color.fromRGBO(237, 42, 95, 1),
-      backgroundColor: Color.fromRGBO(144, 238, 144, 1),
-        title: Text(
-          "ReciPedia",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic),
+        backgroundColor: Color.fromRGBO(144, 238, 144, 1),
+        title: Image.asset(
+          "assets/Logo-nav.png",
+          height: 50,
+          width: 500,
         ),
         centerTitle: true,
       ),
@@ -105,7 +102,6 @@ class _HomePage extends State<HomePage> {
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-//                    color: Color.fromRGBO(144, 238, 144, 1),
                     child: Column(
                       children: <Widget>[
                         InkWell(
@@ -126,7 +122,7 @@ class _HomePage extends State<HomePage> {
                           child: Container(
                             margin:
                                 EdgeInsets.only(left: 3, bottom: 5, right: 3),
-                            height: 170,
+                            height: 180,
                             width: double.infinity,
                             child: Row(
                               children: <Widget>[
@@ -157,28 +153,23 @@ class _HomePage extends State<HomePage> {
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(5),
-//                                    color: Colors.blue,
                                     child: Column(
                                       children: <Widget>[
-                                        SizedBox(height: 20,),
-//                                        SizedBox(
-//                                          height: Provider.of<Recipe>(context)
-//                                                      .item[index]
-//                                                      .title
-//                                                      .length >=
-//                                                  50
-//                                              ? 10
-//                                              : 60,
-//                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
                                         Text(
                                           Provider.of<Recipe>(context)
-                                              .item[index]
-                                              .title.length >=30 ? "${ Provider.of<Recipe>(context)
-                                              .item[index]
-                                              .title.substring(0,30)}..." : Provider.of<Recipe>(context)
-                                              .item[index]
-                                              .title ,
-                                          style: TextStyle(color: Colors.black87,
+                                                      .item[index]
+                                                      .title
+                                                      .length >=
+                                                  30
+                                              ? "${Provider.of<Recipe>(context).item[index].title.substring(0, 30)}..."
+                                              : Provider.of<Recipe>(context)
+                                                  .item[index]
+                                                  .title,
+                                          style: TextStyle(
+                                              color: Colors.black87,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -189,13 +180,7 @@ class _HomePage extends State<HomePage> {
                                             allowHalfRating: true,
                                             starCount: 5,
                                             rating: double.parse(
-                                                        Provider.of<Recipe>(
-                                                                context)
-                                                            .item[index]
-                                                            .rating) >=
-                                                    80
-                                                ? 5
-                                                : 3.5,
+                                                Provider.of<Recipe>(context).item[index].rating)*(5/100),
                                             size: 30.0,
                                             color: Colors.greenAccent,
                                             borderColor: Colors.black87,
@@ -208,21 +193,36 @@ class _HomePage extends State<HomePage> {
                                               MainAxisAlignment.spaceAround,
                                           children: <Widget>[
                                             RichText(
-                                                 text: TextSpan(style: DefaultTextStyle.of(context).style,children: [TextSpan(text: "3.5",style: TextStyle(color: Colors.green),),TextSpan(text: "/5")],),
+                                              text: TextSpan(
+                                                style: TextStyle(fontSize: 17),
+                                                children: [
+                                                  TextSpan(
+                                                    text: (double.parse(Provider.of<Recipe>(context).item[index].rating)*(5/100)).toString().substring(0,4),
+                                                    style: TextStyle(
+                                                        color: Colors.green),
+                                                  ),
+                                                  TextSpan(
+                                                      text: "/5",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.black87))
+                                                ],
+                                              ),
                                             ),
                                             IconButton(
                                               icon: Icon(
-                                                  Provider.of<Recipe>(context)
-                                                          .item[index]
-                                                          .isFavorite
-                                                      ? Icons.favorite
-                                                      : Icons.favorite_border,color: Colors.lightGreen,),
+                                                Provider.of<Recipe>(context)
+                                                        .item[index]
+                                                        .isFavorite
+                                                    ? Icons.favorite
+                                                    : Icons.favorite_border,
+                                                color: Colors.lightGreen,
+                                              ),
                                               onPressed: () {
                                                 Provider.of<Recipe>(context)
                                                     .toggleFavoriteStatus(
                                                         index);
-                                                if (Provider.of<Recipe>(
-                                                        context)
+                                                if (Provider.of<Recipe>(context)
                                                     .item[index]
                                                     .isFavorite) {
                                                   Provider.of<Recipe>(
@@ -265,7 +265,9 @@ class _HomePage extends State<HomePage> {
                                             ),
                                             IconButton(
                                               icon: Icon(
-                                                  Icons.play_circle_outline,color: Colors.lightGreen,),
+                                                Icons.play_circle_outline,
+                                                color: Colors.lightGreen,
+                                              ),
                                               onPressed: () async {
                                                 if (await canLaunch(
                                                     "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}")) {

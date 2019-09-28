@@ -1,6 +1,6 @@
 
 
-import './models/cuisine.dart';
+import './models/category.dart';
 
 const DUMMY_CATEGORIES = const [
   Category(

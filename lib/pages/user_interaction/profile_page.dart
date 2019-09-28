@@ -25,25 +25,19 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-//        scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[
             Container(
               height: 200,
-              color: Colors.lightGreen,
-//              color: Color.fromRGBO(r, g, b, opacity),
+            color: Color.fromRGBO(187, 239, 176, 0.8),
               child: Center(
                 child: Container(
-                  height: 120,
-                  width: 120,
-                  color: Colors.white,
                   child: Center(
                     child: Container(
-                      height: 110,
-                      width: 110,
-                      color: Colors.red,
+                      height: 140,
+                      width: 140,
                       child: Image.asset(
-                        "assets/default.png",
+                        "assets/student.png",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -70,7 +64,7 @@ class ProfilePage extends StatelessWidget {
                               ? "Loading.."
                               : Provider.of<Auth>(context).userData["name"],
                           style: TextStyle(
-                              fontSize: 25, fontStyle: FontStyle.italic),
+                              fontSize: 30, fontFamily: "Nexa",fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -92,7 +86,7 @@ class ProfilePage extends StatelessWidget {
                               ? "Loading.."
                               : Provider.of<Auth>(context).userData["username"],
                           style: TextStyle(
-                              fontSize: 25, fontStyle: FontStyle.italic),
+                              fontSize: 30, fontFamily: "Nexa",fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -114,7 +108,7 @@ class ProfilePage extends StatelessWidget {
                                 ? "Loading.."
                                 : Provider.of<Auth>(context).userData["email"],
                             style: TextStyle(
-                                fontSize: 25, fontStyle: FontStyle.italic),
+                                fontSize: 30, fontFamily: "Nexa" ,fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
