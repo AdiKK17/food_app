@@ -208,16 +208,18 @@
                   Container(
                     padding: EdgeInsets.only(top: 220),
                     alignment: Alignment.center,
+//                      child: ClipRRect(borderRadius: BorderRadius.circular(100),child: Image.asset("assets/Logo.svg",height: 170,width: 200,),)
                     child: Text(
                       "ReciPedia",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic,
                           fontSize: 50),
-                    ),
+                    )
+                    ,
                   ),
                   SizedBox(
-                    height: 70,
+                    height: 60,
                   ),
                   _authMode == AuthMode.SignUp
                       ? Container(

@@ -49,7 +49,7 @@ class Recipe with ChangeNotifier {
   Future<void> fetchRecipes(BuildContext context) async {
     final int randomPageNo = int.parse(Random().nextInt(3000).toString());
     final url =
-        "https://www.food2fork.com/api/search?key=8b2a51f6f5884208ad88c8d478813cab&page=$randomPageNo";
+        "https://www.food2fork.com/api/search?key=f49cc4830be5b6ba1ac296810a27cd3e&page=$randomPageNo";
     try {
       final response = await http.get(url);
       final responseData = json.decode(response.body);

@@ -13,14 +13,17 @@ class CuisinePage extends StatelessWidget {
         title: Text(
           "Cuisines",
           style: TextStyle(
-            color: Colors.black,
+            fontFamily: "Oswald",
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+//            color: Colors.black,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(20,89 , 29, 1),
+      backgroundColor: Color.fromRGBO(187, 239, 176, 0.8),
       ),
       body: Container(
-        color: Colors.black,
+        color: Colors.white,
         child: GridView.builder(
           itemCount: DUMMY_CATEGORIES.length,
           itemBuilder: (context, index) => CuisineItem(

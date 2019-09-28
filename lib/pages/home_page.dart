@@ -83,7 +83,8 @@ class _HomePage extends State<HomePage> {
             },
           ),
         ],
-        backgroundColor: Color.fromRGBO(237, 42, 95, 1),
+//        backgroundColor: Color.fromRGBO(237, 42, 95, 1),
+      backgroundColor: Color.fromRGBO(144, 238, 144, 1),
         title: Text(
           "ReciPedia",
           style: TextStyle(
@@ -104,7 +105,7 @@ class _HomePage extends State<HomePage> {
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    color: Color.fromRGBO(237, 42, 95, 1),
+//                    color: Color.fromRGBO(144, 238, 144, 1),
                     child: Column(
                       children: <Widget>[
                         InkWell(
@@ -125,27 +126,20 @@ class _HomePage extends State<HomePage> {
                           child: Container(
                             margin:
                                 EdgeInsets.only(left: 3, bottom: 5, right: 3),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Colors.white, Colors.grey],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ),
-                            ),
-                            height: 240,
+                            height: 170,
                             width: double.infinity,
                             child: Row(
                               children: <Widget>[
                                 Container(
                                   margin: EdgeInsets.all(10),
-                                  width: 190,
-                                  height: 140,
+                                  width: 180,
+                                  height: 120,
                                   child: Card(
-                                    color: Colors.deepOrange,
+//                                    color: Colors.deepOrange,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    elevation: 15,
+                                    elevation: 5,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(40),
                                       child: Image.network(
@@ -166,20 +160,25 @@ class _HomePage extends State<HomePage> {
 //                                    color: Colors.blue,
                                     child: Column(
                                       children: <Widget>[
-                                        SizedBox(
-                                          height: Provider.of<Recipe>(context)
-                                                      .item[index]
-                                                      .title
-                                                      .length >=
-                                                  70
-                                              ? 10
-                                              : 50,
-                                        ),
+                                        SizedBox(height: 20,),
+//                                        SizedBox(
+//                                          height: Provider.of<Recipe>(context)
+//                                                      .item[index]
+//                                                      .title
+//                                                      .length >=
+//                                                  50
+//                                              ? 10
+//                                              : 60,
+//                                        ),
                                         Text(
                                           Provider.of<Recipe>(context)
                                               .item[index]
-                                              .title,
-                                          style: TextStyle(
+                                              .title.length >=30 ? "${ Provider.of<Recipe>(context)
+                                              .item[index]
+                                              .title.substring(0,30)}..." : Provider.of<Recipe>(context)
+                                              .item[index]
+                                              .title ,
+                                          style: TextStyle(color: Colors.black87,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -198,23 +197,18 @@ class _HomePage extends State<HomePage> {
                                                 ? 5
                                                 : 3.5,
                                             size: 30.0,
-                                            color: Colors.deepOrangeAccent,
-                                            borderColor: Colors.black,
+                                            color: Colors.greenAccent,
+                                            borderColor: Colors.black87,
                                             spacing: 0.0),
                                         SizedBox(
                                           height: 3,
                                         ),
-//                                        Text(
-//                                          "3/5",
-//                                          style: TextStyle(fontSize: 18),
-//                                        ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: <Widget>[
-                                            Text(
-                                              "3/5",
-                                              style: TextStyle(fontSize: 18),
+                                            RichText(
+                                                 text: TextSpan(style: DefaultTextStyle.of(context).style,children: [TextSpan(text: "3.5",style: TextStyle(color: Colors.green),),TextSpan(text: "/5")],),
                                             ),
                                             IconButton(
                                               icon: Icon(
@@ -222,7 +216,7 @@ class _HomePage extends State<HomePage> {
                                                           .item[index]
                                                           .isFavorite
                                                       ? Icons.favorite
-                                                      : Icons.favorite_border),
+                                                      : Icons.favorite_border,color: Colors.lightGreen,),
                                               onPressed: () {
                                                 Provider.of<Recipe>(context)
                                                     .toggleFavoriteStatus(
@@ -271,7 +265,7 @@ class _HomePage extends State<HomePage> {
                                             ),
                                             IconButton(
                                               icon: Icon(
-                                                  Icons.play_circle_outline),
+                                                  Icons.play_circle_outline,color: Colors.lightGreen,),
                                               onPressed: () async {
                                                 if (await canLaunch(
                                                     "https://www.youtube.com/results?search_query=${Provider.of<Recipe>(context).item[index].title}")) {
@@ -295,11 +289,11 @@ class _HomePage extends State<HomePage> {
                             ),
                           ),
                         ),
-//                        Divider(
-//                          color: Colors.grey,
-//                          indent: 15,
-//                          endIndent: 15,
-//                        )
+                        Divider(
+                          color: Colors.black,
+                          indent: 15,
+                          endIndent: 15,
+                        )
                       ],
                     ),
                   );

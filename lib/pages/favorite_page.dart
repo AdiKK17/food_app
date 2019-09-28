@@ -43,7 +43,7 @@ class _ShowFavorites extends State<ShowFavorites> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color.fromRGBO(187, 239, 176, 0.8),
         title: Text(
           "Favorites",
           style: TextStyle(
@@ -70,11 +70,12 @@ class _ShowFavorites extends State<ShowFavorites> {
                 : ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        color: Color.fromRGBO(10, 33, 15, 0.7),
-                        child: Container(
+//                        color: Color.fromRGBO(10, 33, 15, 0.7),
+                        child: Card(
+                          elevation: 10,
                           margin: EdgeInsets.all(10),
 //                          color: Colors.black12,
-                        color: Colors.white30,
+                          color: Color.fromRGBO(187, 239, 176, 0.8),
                           child: ListTile(
                             contentPadding: EdgeInsets.all(20),
                             onTap: () async {
@@ -106,7 +107,7 @@ class _ShowFavorites extends State<ShowFavorites> {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
-                                "Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating}"),
+                                "Rating - ${Provider.of<Recipe>(context).favoriteRecipes[index].rating.substring(0,5)}"),
                             trailing: IconButton(
                                 icon: Icon(Icons.delete),
                                 onPressed: () => Provider.of<Recipe>(context)

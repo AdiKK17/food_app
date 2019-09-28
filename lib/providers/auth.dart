@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../http_exception.dart';
 import '../models/user_data.dart';
+import '../pages/auth_page.dart';
 
 class Auth with ChangeNotifier {
   String _token;
@@ -410,6 +411,8 @@ class Auth with ChangeNotifier {
 
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
+
+//    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AuthenticationPage()), (Route<dynamic> route) => false);
   }
 
   void _autoLogout() {

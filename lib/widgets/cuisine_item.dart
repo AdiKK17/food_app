@@ -12,11 +12,12 @@ class CuisineItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return InkWell(
-      child: Container(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(60),
         child: Stack(
           children: <Widget>[
-            Center(
-              child: Container(
+             Center(
+              child:Container(
                 width: 190,
                 height: 315,
                 foregroundDecoration: BoxDecoration(color: Colors.black38),
@@ -27,6 +28,7 @@ class CuisineItem extends StatelessWidget {
                       imageUrl,
                     ),
                   ),
+//                  borderRadius: BorderRadius.circular(50)
                 ),
               ),
             ),
@@ -35,8 +37,8 @@ class CuisineItem extends StatelessWidget {
                 title,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 40,
-                fontFamily: "Oswald"),
+                    fontSize: 35,
+                fontFamily: "Nexa"),
               ),
             ),
           ],

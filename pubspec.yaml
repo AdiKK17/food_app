@@ -65,6 +65,8 @@ flutter:
      - assets/drinks.jpg
      - assets/salad.jpg
      - assets/default.png
+     - assets/newDrawerImage.jpg
+     - assets/Logo.svg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -84,11 +86,17 @@ flutter:
          - asset: assets/Oswald-Bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+     - family: Montserrat
+       fonts:
+         - asset: assets/Montserrat-Black.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+     - family: Nexa
+       fonts:
+         - asset: assets/Nexa-Light.otf
+     - family: OpenSans
+       fonts:
+             - asset: assets/OpenSans-SemiBold.ttf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

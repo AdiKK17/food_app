@@ -21,9 +21,6 @@ class ShoppingIngredients with ChangeNotifier{
 
   Future<void> fetchAndSet() async {
     final dataList = await DBHelper.getData("things_to_buy");
-//    print(dataList);
-//    print("hayabusa");
-//    _itemsToBuy = dataList.map((item) => item["item"].toString()).toList();
     _itemsToBuy = dataList.map((item) => ShoppingListItem(id: item["id"], description: item["item"])).toList();
     if(_itemsToBuy.length == 0){
       print("initial length is zero");

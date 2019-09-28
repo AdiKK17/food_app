@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../pages/category_page.dart';
 import '../pages/favorite_page.dart';
 import '../pages/shopping_list_page.dart';
 import '../pages/cuisine_page.dart';
@@ -11,6 +10,7 @@ import '../main.dart';
 import '../pages/user_interaction/profile_page.dart';
 import '../pages/user_interaction/friends_page.dart';
 import '../pages/user_interaction/notifications_page.dart';
+import '../pages/category_page1.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -25,56 +25,40 @@ class TheDrawer extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: 210,
+              height: 230,
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("assets/authImage.jpg"),
+                    image: AssetImage("assets/newDrawerImage.jpg"),
                     fit: BoxFit.cover),
               ),
               padding: EdgeInsets.only(right: 30, bottom: 20),
 //              color: Colors.cyanAccent,
               margin: EdgeInsets.only(top: 30),
               child: Text(
-                Provider.of<Auth>(context).userEmail == null
-                    ? "holo"
-                    : Provider.of<Auth>(context).userEmail,
-                style: TextStyle(fontSize: 23, fontStyle: FontStyle.italic),
+                Provider.of<Auth>(context).userData["name"],
+                style: TextStyle(fontSize: 30, fontFamily: "Oswald"),
               ),
               alignment: Alignment.bottomRight,
             ),
-//          ListTile(
-//            trailing: Icon(Icons.all_inclusive),
-//            title: Text(
-//              "Recipes",
-//              style: TextStyle(fontWeight: FontWeight.bold),
-//            ),
-//            onTap: () {
-//              Navigator.of(context).push(
-//                MaterialPageRoute(
-//                  builder: (context) => EveryRecipe(),
-//                ),
-//              );
-//            },
-//          ),
             ListTile(
-                trailing: Icon(Icons.timelapse),
+                leading: Icon(Icons.restaurant_menu),
                 title: Text(
                   "Categories",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                 ),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ShowCategories(),
+                      builder: (context) => CategoryPage1(),
                     ),
                   );
                 }),
             ListTile(
-                trailing: Icon(Icons.category),
+                leading: Icon(Icons.category),
                 title: Text(
                   "Cuisines",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                 ),
                 onTap: () {
                   Navigator.of(context).push(
@@ -84,10 +68,10 @@ class TheDrawer extends StatelessWidget {
                   );
                 }),
             ListTile(
-                trailing: Icon(Icons.favorite),
+                leading: Icon(Icons.favorite),
                 title: Text(
                   "Favorites",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                 ),
                 onTap: () {
                   Navigator.of(context).push(
@@ -97,10 +81,10 @@ class TheDrawer extends StatelessWidget {
                   );
                 }),
             ListTile(
-                trailing: Icon(Icons.shopping_cart),
+                leading: Icon(Icons.shopping_cart),
                 title: Text(
                   "Shopping List",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                 ),
                 onTap: () {
                   Navigator.of(context).push(
@@ -111,10 +95,10 @@ class TheDrawer extends StatelessWidget {
                 }),
             Divider(),
             ListTile(
-              trailing: Icon(Icons.person_outline),
+              leading: Icon(Icons.person_outline),
               title: Text(
                 "Profile",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
               ),
               onTap: () {
                 Provider.of<Auth>(context).fetchUserDetails();
@@ -126,10 +110,10 @@ class TheDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-                trailing: Icon(Icons.group_add),
+                leading: Icon(Icons.group_add),
                 title: Text(
                   "Add Friends",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                 ),
                 onTap: () {
 //                Provider.of<Auth>(context).fetchAllUsersData();
@@ -140,10 +124,10 @@ class TheDrawer extends StatelessWidget {
                   );
                 }),
             ListTile(
-                trailing: Icon(Icons.notifications),
+                leading: Icon(Icons.notifications),
                 title: Text(
                   "Notifications",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                 ),
                 onTap: () {
 //                Provider.of<Auth>(context).fetchAllUsersData();
