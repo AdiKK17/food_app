@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../http_exception.dart';
 import '../models/user_data.dart';
-import '../pages/auth_page.dart';
 
 class Auth with ChangeNotifier {
   String _token;

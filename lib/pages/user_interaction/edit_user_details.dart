@@ -126,7 +126,7 @@ class _EditUserDetailsPage extends State<EditUserDetailsPage> {
                         Container(
                           width: 100,
                           child: RaisedButton(
-                              color: Colors.green,
+                                  color: Colors.green,
                               child: Text("Submit"),
                               onPressed: () => _submitForm()),
                         ),

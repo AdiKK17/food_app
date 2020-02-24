@@ -61,21 +61,6 @@ class DataSearch extends SearchDelegate<String> {
                       );
                     }
                   },
-//                  onTap: () async {
-//                    if (await canLaunch(Provider.of<SearchedRecipes>(context)
-//                        .searchedItems[index]
-//                        .detailSource)) {
-//                      await launch(
-//                        Provider.of<SearchedRecipes>(context)
-//                            .searchedItems[index]
-//                            .detailSource,
-//                        forceSafariVC: true,
-//                        forceWebView: true,
-//                      );
-//                    } else {
-//                      print("could not launch the url");
-//                    }
-//                  },
                   leading: CircleAvatar(
                     radius: 30.0,
                     backgroundImage: NetworkImage(
